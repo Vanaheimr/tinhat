@@ -1,0 +1,48 @@
+# text              No autodetection. Explicitly declaring to be text, so line endings are normalized to LF on checkin. Convert to OS native on checkout.
+# text=auto         Autodetect if git thinks it's a text file, and if so, line endings are normalized to LF on checkin. Convert to OS native on checkout.
+# text eol=crlf     Normalize on commit, and always checkout with CRLF (dos-style)
+# text eol=lf       Normalize on commit, and always checkout with LF (unix-style)
+# binary            No autodetection. Explicitly declare that no modifications are to be made.
+
+# This is a good default
+* text=auto
+
+# Explicitly declare some files to be text. Conver to OS native at checkout.
+*.txt text
+*.cs text
+*.c text
+*.h text
+# this is XML file, as far as I can tell, only used by VS, but how does it behave for Xamarin? I figured just make it the same as *.cs
+*/app.config text
+*.htm text
+*.resx text
+*.xml text
+*.XML text
+
+# Some files should always have windows-style line endings
+*.sln text eol=crlf
+*.csproj text eol=crlf
+# ghostdoc dictionary, windows-only
+*.dic text eol=crlf
+*.suo text eol=crlf
+
+# Some files should always have unix-style line endings
+*.sh text eol=lf
+regress-config-* text eol=lf
+
+# Some files should be treated as binary, and no modifications ever made
+*.png binary
+*.jpg binary
+*.chm binary
+*.dat binary
+*.dll binary
+# MS word doc
+*.DOC binary
+*.doc binary
+*.docx binary
+#MS powerpoint
+*.ppt binary
+*.pptx binary
+*.mov binary
+*.mp4 binary
+*.rtf binary

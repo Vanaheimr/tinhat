@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+  <HelpKINode Title="CanRead property" Url="html/1543762217.htm" />
+  <HelpKINode Title="CanSeek property" Url="html/1984368336.htm" />
+  <HelpKINode Title="CanWrite property" Url="html/872231630.htm" />
+  <HelpKINode Title="ComputeHash method" Url="html/1284637549.htm" />
+  <HelpKINode Title="Dispose method" Url="html/1636817934.htm" />
+  <HelpKINode Title="EntropyHasher class">
+    <HelpKINode Title="EntropyHasher Class" Url="html/26895090.htm" />
+    <HelpKINode Title="EntropyHasher Members" Url="html/318283563.htm" />
+    <HelpKINode Title="about EntropyHasher class" Url="html/26895090.htm" />
+    <HelpKINode Title="all members" Url="html/318283563.htm" />
+    <HelpKINode Title="constructor" Url="html/1140947273.htm" />
+    <HelpKINode Title="fields" Url="html/2119545820.htm" />
+    <HelpKINode Title="methods" Url="html/168267560.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EntropyHasher.Dispose method" Url="html/1636817934.htm" />
+  <HelpKINode Title="EntropyHasher.EntropyHasher constructor" Url="html/1140947273.htm" />
+  <HelpKINode Title="EntropyHasher.HashWrappers field" Url="html/1236241302.htm" />
+  <HelpKINode Title="EntropyHasher.RNG field" Url="html/201444099.htm" />
+  <HelpKINode Title="FifoStream class">
+    <HelpKINode Title="FifoStream Class" Url="html/1015870021.htm" />
+    <HelpKINode Title="FifoStream Members" Url="html/1220086289.htm" />
+    <HelpKINode Title="about FifoStream class" Url="html/1015870021.htm" />
+    <HelpKINode Title="all members" Url="html/1220086289.htm" />
+    <HelpKINode Title="constructor" Url="html/359675784.htm" />
+    <HelpKINode Title="methods" Url="html/964297067.htm" />
+    <HelpKINode Title="properties" Url="html/1769196211.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FifoStream.CanRead property" Url="html/1543762217.htm" />
+  <HelpKINode Title="FifoStream.CanSeek property" Url="html/1984368336.htm" />
+  <HelpKINode Title="FifoStream.CanWrite property" Url="html/872231630.htm" />
+  <HelpKINode Title="FifoStream.FifoStream constructor" Url="html/359675784.htm" />
+  <HelpKINode Title="FifoStream.Flush method" Url="html/389135429.htm" />
+  <HelpKINode Title="FifoStream.IOException property" Url="html/1080356614.htm" />
+  <HelpKINode Title="FifoStream.Length property" Url="html/1967081540.htm" />
+  <HelpKINode Title="FifoStream.Position property" Url="html/1093886203.htm" />
+  <HelpKINode Title="FifoStream.Read method">
+    <HelpKINode Title="Read Method " Url="html/203218759.htm" />
+    <HelpKINode Title="Read Method " Url="html/954696351.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FifoStream.Seek method">
+    <HelpKINode Title="Seek Method " Url="html/1087886817.htm" />
+    <HelpKINode Title="Seek Method " Url="html/559292602.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FifoStream.SetLength method" Url="html/903035340.htm" />
+  <HelpKINode Title="FifoStream.Write method" Url="html/64113841.htm" />
+  <HelpKINode Title="FifoStream.Zeroize property" Url="html/1348918421.htm" />
+  <HelpKINode Title="Flush method" Url="html/389135429.htm" />
+  <HelpKINode Title="GetAvailableBytes method">
+    <HelpKINode Title="GetAvailableBytes Method " Url="html/1853432330.htm" />
+    <HelpKINode Title="GetAvailableBytes Method " Url="html/1871792614.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GetBytes method">
+    <HelpKINode Title="GetBytes Method " Url="html/1166280916.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/325520439.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/740250174.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/1344670039.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/2120829296.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/1877377574.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GetNonZeroBytes method">
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/152218678.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/1891499763.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/2107944744.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/347557294.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/333279726.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/1345135345.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HashAlgorithmWrapper class">
+    <HelpKINode Title="HashAlgorithmWrapper Class" Url="html/1267281526.htm" />
+    <HelpKINode Title="HashAlgorithmWrapper Members" Url="html/1392436184.htm" />
+    <HelpKINode Title="about HashAlgorithmWrapper class" Url="html/1267281526.htm" />
+    <HelpKINode Title="all members" Url="html/1392436184.htm" />
+    <HelpKINode Title="constructor" Url="html/648076439.htm" />
+    <HelpKINode Title="methods" Url="html/1327085579.htm" />
+    <HelpKINode Title="properties" Url="html/1011204741.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HashAlgorithmWrapper.ComputeHash method" Url="html/1284637549.htm" />
+  <HelpKINode Title="HashAlgorithmWrapper.HashAlgorithmWrapper constructor" Url="html/648076439.htm" />
+  <HelpKINode Title="HashAlgorithmWrapper.HashSizeInBits property" Url="html/1024145257.htm" />
+  <HelpKINode Title="HashSizeInBits property" Url="html/1024145257.htm" />
+  <HelpKINode Title="HashWrappers field" Url="html/1236241302.htm" />
+  <HelpKINode Title="IOException property" Url="html/1080356614.htm" />
+  <HelpKINode Title="Length property" Url="html/1967081540.htm" />
+  <HelpKINode Title="MaxPoolSize property">
+    <HelpKINode Title="MaxPoolSize Property " Url="html/480114928.htm" />
+    <HelpKINode Title="MaxPoolSize Property " Url="html/313748418.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Position property" Url="html/1093886203.htm" />
+  <HelpKINode Title="Read method">
+    <HelpKINode Title="Read Method " Url="html/203218759.htm" />
+    <HelpKINode Title="Read Method " Url="html/954696351.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RNG field" Url="html/201444099.htm" />
+  <HelpKINode Title="SeedSize field" Url="html/1591598237.htm" />
+  <HelpKINode Title="Seek method">
+    <HelpKINode Title="Seek Method " Url="html/1087886817.htm" />
+    <HelpKINode Title="Seek Method " Url="html/559292602.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SetLength method" Url="html/903035340.htm" />
+  <HelpKINode Title="StartEarly class">
+    <HelpKINode Title="StartEarly Class" Url="html/1486673411.htm" />
+    <HelpKINode Title="StartEarly Members" Url="html/244647306.htm" />
+    <HelpKINode Title="about StartEarly class" Url="html/1486673411.htm" />
+    <HelpKINode Title="all members" Url="html/244647306.htm" />
+    <HelpKINode Title="methods" Url="html/647898758.htm" />
+  </HelpKINode>
+  <HelpKINode Title="StartEarly.StartFillingEntropyPools method" Url="html/1883290966.htm" />
+  <HelpKINode Title="StartFillingEntropyPools method" Url="html/1883290966.htm" />
+  <HelpKINode Title="SystemRNGCryptoServiceProvider class">
+    <HelpKINode Title="SystemRNGCryptoServiceProvider Class" Url="html/956292012.htm" />
+    <HelpKINode Title="SystemRNGCryptoServiceProvider Members" Url="html/446240559.htm" />
+    <HelpKINode Title="about SystemRNGCryptoServiceProvider class" Url="html/956292012.htm" />
+    <HelpKINode Title="all members" Url="html/446240559.htm" />
+    <HelpKINode Title="methods" Url="html/702122951.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SystemRNGCryptoServiceProvider.GetBytes method" Url="html/2120829296.htm" />
+  <HelpKINode Title="SystemRNGCryptoServiceProvider.GetNonZeroBytes method" Url="html/1891499763.htm" />
+  <HelpKINode Title="ThreadedSeedGeneratorRNG class">
+    <HelpKINode Title="ThreadedSeedGeneratorRNG Class" Url="html/1814522618.htm" />
+    <HelpKINode Title="ThreadedSeedGeneratorRNG Members" Url="html/993635591.htm" />
+    <HelpKINode Title="about ThreadedSeedGeneratorRNG class" Url="html/1814522618.htm" />
+    <HelpKINode Title="all members" Url="html/993635591.htm" />
+    <HelpKINode Title="constructor" Url="html/1114013926.htm" />
+    <HelpKINode Title="methods" Url="html/2043175699.htm" />
+    <HelpKINode Title="properties" Url="html/578965879.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ThreadedSeedGeneratorRNG.GetAvailableBytes method" Url="html/1871792614.htm" />
+  <HelpKINode Title="ThreadedSeedGeneratorRNG.GetBytes method" Url="html/1344670039.htm" />
+  <HelpKINode Title="ThreadedSeedGeneratorRNG.GetNonZeroBytes method" Url="html/333279726.htm" />
+  <HelpKINode Title="ThreadedSeedGeneratorRNG.MaxPoolSize property" Url="html/480114928.htm" />
+  <HelpKINode Title="ThreadedSeedGeneratorRNG.ThreadedSeedGeneratorRNG constructor" Url="html/1114013926.htm" />
+  <HelpKINode Title="ThreadSchedulerRNG class">
+    <HelpKINode Title="ThreadSchedulerRNG Class" Url="html/1142857277.htm" />
+    <HelpKINode Title="ThreadSchedulerRNG Members" Url="html/1936198763.htm" />
+    <HelpKINode Title="about ThreadSchedulerRNG class" Url="html/1142857277.htm" />
+    <HelpKINode Title="all members" Url="html/1936198763.htm" />
+    <HelpKINode Title="constructor" Url="html/808140476.htm" />
+    <HelpKINode Title="methods" Url="html/1596232947.htm" />
+    <HelpKINode Title="properties" Url="html/1488886025.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ThreadSchedulerRNG.GetAvailableBytes method" Url="html/1853432330.htm" />
+  <HelpKINode Title="ThreadSchedulerRNG.GetBytes method" Url="html/1877377574.htm" />
+  <HelpKINode Title="ThreadSchedulerRNG.GetNonZeroBytes method" Url="html/347557294.htm" />
+  <HelpKINode Title="ThreadSchedulerRNG.MaxPoolSize property" Url="html/313748418.htm" />
+  <HelpKINode Title="ThreadSchedulerRNG.ThreadSchedulerRNG constructor" Url="html/808140476.htm" />
+  <HelpKINode Title="tinhat namespace" Url="html/7022855.htm" />
+  <HelpKINode Title="tinhat.EntropySources namespace" Url="html/60900893.htm" />
+  <HelpKINode Title="tinhat.EntropySources.SystemRNGCryptoServiceProvider class">
+    <HelpKINode Title="SystemRNGCryptoServiceProvider Class" Url="html/956292012.htm" />
+    <HelpKINode Title="SystemRNGCryptoServiceProvider Members" Url="html/446240559.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.EntropySources.ThreadedSeedGeneratorRNG class">
+    <HelpKINode Title="ThreadedSeedGeneratorRNG Class" Url="html/1814522618.htm" />
+    <HelpKINode Title="ThreadedSeedGeneratorRNG Members" Url="html/993635591.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.EntropySources.ThreadSchedulerRNG class">
+    <HelpKINode Title="ThreadSchedulerRNG Class" Url="html/1142857277.htm" />
+    <HelpKINode Title="ThreadSchedulerRNG Members" Url="html/1936198763.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.EntropySources.UserStringRNG class">
+    <HelpKINode Title="UserStringRNG Class" Url="html/1658582662.htm" />
+    <HelpKINode Title="UserStringRNG Members" Url="html/2016718237.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.StartEarly class">
+    <HelpKINode Title="StartEarly Class" Url="html/1486673411.htm" />
+    <HelpKINode Title="StartEarly Members" Url="html/244647306.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.SupportingClasses namespace" Url="html/1697403765.htm" />
+  <HelpKINode Title="tinhat.SupportingClasses.EntropyHasher class">
+    <HelpKINode Title="EntropyHasher Class" Url="html/26895090.htm" />
+    <HelpKINode Title="EntropyHasher Members" Url="html/318283563.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.SupportingClasses.FifoStream class">
+    <HelpKINode Title="FifoStream Class" Url="html/1015870021.htm" />
+    <HelpKINode Title="FifoStream Members" Url="html/1220086289.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.SupportingClasses.HashAlgorithmWrapper class">
+    <HelpKINode Title="HashAlgorithmWrapper Class" Url="html/1267281526.htm" />
+    <HelpKINode Title="HashAlgorithmWrapper Members" Url="html/1392436184.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.TinHatRandom class">
+    <HelpKINode Title="TinHatRandom Class" Url="html/1974752009.htm" />
+    <HelpKINode Title="TinHatRandom Members" Url="html/325929986.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.TinHatURandom class">
+    <HelpKINode Title="TinHatURandom Class" Url="html/2066684118.htm" />
+    <HelpKINode Title="TinHatURandom Members" Url="html/1519808138.htm" />
+  </HelpKINode>
+  <HelpKINode Title="TinHatRandom class">
+    <HelpKINode Title="TinHatRandom Class" Url="html/1974752009.htm" />
+    <HelpKINode Title="TinHatRandom Members" Url="html/325929986.htm" />
+    <HelpKINode Title="about TinHatRandom class" Url="html/1974752009.htm" />
+    <HelpKINode Title="all members" Url="html/325929986.htm" />
+    <HelpKINode Title="constructor" Url="html/528764221.htm" />
+    <HelpKINode Title="methods" Url="html/1100459128.htm" />
+  </HelpKINode>
+  <HelpKINode Title="TinHatRandom.GetBytes method" Url="html/325520439.htm" />
+  <HelpKINode Title="TinHatRandom.GetNonZeroBytes method" Url="html/1345135345.htm" />
+  <HelpKINode Title="TinHatRandom.TinHatRandom constructor" Url="html/528764221.htm" />
+  <HelpKINode Title="TinHatURandom class">
+    <HelpKINode Title="TinHatURandom Class" Url="html/2066684118.htm" />
+    <HelpKINode Title="TinHatURandom Members" Url="html/1519808138.htm" />
+    <HelpKINode Title="about TinHatURandom class" Url="html/2066684118.htm" />
+    <HelpKINode Title="all members" Url="html/1519808138.htm" />
+    <HelpKINode Title="constructor" Url="html/1566304655.htm" />
+    <HelpKINode Title="fields" Url="html/173248628.htm" />
+    <HelpKINode Title="methods" Url="html/548606393.htm" />
+  </HelpKINode>
+  <HelpKINode Title="TinHatURandom.GetBytes method" Url="html/1166280916.htm" />
+  <HelpKINode Title="TinHatURandom.GetNonZeroBytes method" Url="html/152218678.htm" />
+  <HelpKINode Title="TinHatURandom.SeedSize field" Url="html/1591598237.htm" />
+  <HelpKINode Title="TinHatURandom.TinHatURandom constructor" Url="html/1566304655.htm" />
+  <HelpKINode Title="UserStringRNG class">
+    <HelpKINode Title="UserStringRNG Class" Url="html/1658582662.htm" />
+    <HelpKINode Title="UserStringRNG Members" Url="html/2016718237.htm" />
+    <HelpKINode Title="about UserStringRNG class" Url="html/1658582662.htm" />
+    <HelpKINode Title="all members" Url="html/2016718237.htm" />
+    <HelpKINode Title="constructor" Url="html/1903573310.htm" />
+    <HelpKINode Title="methods" Url="html/1412806838.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UserStringRNG.GetBytes method" Url="html/740250174.htm" />
+  <HelpKINode Title="UserStringRNG.GetNonZeroBytes method" Url="html/2107944744.htm" />
+  <HelpKINode Title="UserStringRNG.UserStringRNG constructor" Url="html/1903573310.htm" />
+  <HelpKINode Title="Write method" Url="html/64113841.htm" />
+  <HelpKINode Title="Zeroize property" Url="html/1348918421.htm" />
+</HelpKI>
