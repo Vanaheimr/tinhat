@@ -1,5 +1,6 @@
-Tinhat is distributed with BouncyCastle, which is also MIT licensed. For more info,
-see "bouncycastle-license.txt"
+Tinhat Random (https://www.tinhatrandom.org) is MIT licensed (see below) and
+is dependent on BouncyCastle (http://www.bouncycastle.org), which is also MIT 
+licensed.  (http://www.bouncycastle.org/csharp/licence.html)
 
 The MIT License (MIT)
 

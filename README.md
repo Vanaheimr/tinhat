@@ -47,3 +47,49 @@ Proceduralizing all of the above:
     * Combine the hashes A', B', C', ... via XOR, and return the result to the user, up to the number of bytes requested.
 
 This is the architecture behind TinHatRandom.  By comparison, TinHatURandom is a simple wrapper around a PRNG, which uses TinHatRandom for seed material.
+
+## Download ##
+
+It is generally recommended to use NuGet to add the library to your project/solution.
+
+- Visual Studio: In your project, right-click References, and Manage NuGet Packages. Search for TinHat, and install.
+- Xamarin Studio / MonoDevelop: If you don't already have a NuGet package manager, install it from <https://github.com/mrward/monodevelop-nuget-addin>.  And then right-click References, and Manage NuGet Packages.  Search for TinHat, and install.
+
+Tinhat source code is available at <https://github.com/rahvee/tinhat>
+
+## Documentation and API ##
+
+If you want simple usage, here is an example.
+
+    static void Main(string[] args)
+    {
+        tinhat.StartEarly.StartFillingEntropyPools();  // Start gathering entropy as early as possible
+    
+        var randomBytes = new byte[32];
+    
+        // Only use TinHatRandom for long-lived keys.  Use TinHatURandom for everything else.
+        // On my system, TinHatRandom generated about 15-60 KiB/sec
+        // default constructor uses SystemRNGCryptoServiceProvider/SHA256, ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest
+        using (var rng = new tinhat.TinHatRandom())
+        {
+            rng.GetBytes(randomBytes);
+        }
+    
+        // Use TinHatURandom for general cryptographic random purposes.
+        // On my system, TinHatURandom generated about 2-8 MiB/sec
+        // default constructor uses SystemRNGCryptoServiceProvider/SHA256, ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest
+        using (var rng = new tinhat.TinHatURandom())
+        {
+            rng.GetBytes(randomBytes);
+        }
+    }
+
+If you want to manually specify the hash algorithms and entropy sources, please consult the documentation below.
+
+For windows users, we recommend downloading the chm file (compressed html, displays natively in your windows help dialog by just double-clicking the chm file).  <https://github.com/rahvee/tinhat/raw/master/Documentation/tinhat.chm>
+
+The html when viewed in a web browser, doesn't render quite as nicely, but here it is, for anyone who doesn't want or can't use the chm.  <https://www.tinhatrandom.org/API>
+
+## Support ##
+
+Please send email to <tinhatrandom-discuss@tinhatrandom.org>
