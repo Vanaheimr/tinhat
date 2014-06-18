@@ -15,10 +15,10 @@ namespace tinhat.EntropySources
     /// input, come use UserStringRNG.  It is estimated the user will probably not be randomly mashing their shift key.  The characters
     /// they enter will probably be confined to a field of about 36 possible chars, but they will enter a lot of patterns and repetition.
     /// So each keystroke they enter only has a random chance approximately 1/8 or 1/16.  Conservative estimates of good users actually
-    /// trying to cooperate and enter random characters are about 2 or 3 bits of entropy per character.  Aggressive estimates are about 
-    /// 4 or 5 bits of entropy per character.  So it's recommended to collect at least 64 characters from the user,
-    /// to form a key of 128 bit strength, or 128 characters to form a key of 256 bit strength.  The UserStringRNG class does not
-    /// provide any additional entropy.  It seeds a prng with the supplied string, and provides random bytes from the prng.
+    /// trying to cooperate and enter random characters are about 0.5 to 3 bits of entropy per character.  Aggressive estimates are about 
+    /// 4 or 5 bits of entropy per character.  It is recommended to assume 1 bit per character.  Need 128 bit key?  Prompt user for 128
+    /// random characters on the keyboard.  The UserStringRNG class does not provide any additional entropy over time.  It uses the initial
+    /// seed in a prng, and that's all.
     /// </summary>
     public sealed class UserStringRNG : RandomNumberGenerator
     {
