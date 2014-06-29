@@ -15,11 +15,16 @@ namespace WinFormsKeyboardInputPrompt
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            // We never expect to run this Program directly, except maybe during debugging.
-            // Normally, some other program references us, and instantiates new FormKeyboardInputPrompt
-            // within their own context.  So I just hard-code some argument in the following
-            // line, for the sake of averting compile error.
-            Application.Run(new FormKeyboardInputPrompt(128));
+            var myForm = new FormKeyboardInputPrompt(128);
+            DialogResult result = myForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                MessageBox.Show("Got string: '" + myForm.GetUserString() + "'");
+            }
+            else
+            {
+                MessageBox.Show("No result received");
+            }
         }
     }
 }

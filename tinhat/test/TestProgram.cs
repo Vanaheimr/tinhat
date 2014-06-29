@@ -13,21 +13,6 @@ namespace test
             // It's always good to StartFillingEntropyPools as early as possible when the application is launched.
             StartEarly.StartFillingEntropyPools();
 
-            /* This commented-out section prompts for user keyboard input via winforms - MS windows only
-             * 
-            var formKeyboardInput = new WinFormsKeyboardInputPrompt.FormKeyboardInputPrompt(128);
-            var dialogResult = formKeyboardInput.ShowDialog();
-            string userString = null;
-            switch (dialogResult)
-            {
-                case System.Windows.Forms.DialogResult.OK:
-                    userString = formKeyboardInput.GetUserString();
-                    break;
-                default:
-                    break;
-            }
-            */
-
             // Below, I'm going to benchmark RNG generation.  Allocate a buffer first, which will be reused.
             const int blockSize = 640;
             var randomBytes = new byte[blockSize];
