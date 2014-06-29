@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test (VS)", "test\test (VS)
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsKeyboardInputPrompt", "WinFormsKeyboardInputPrompt\WinFormsKeyboardInputPrompt.csproj", "{24A9DBF2-C288-46B5-8891-C29143443E66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsMouse", "WindowsFormsMouse\WindowsFormsMouse.csproj", "{EDF22873-E622-4C74-B7A5-D0D48D5FFAD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{24A9DBF2-C288-46B5-8891-C29143443E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A9DBF2-C288-46B5-8891-C29143443E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A9DBF2-C288-46B5-8891-C29143443E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDF22873-E622-4C74-B7A5-D0D48D5FFAD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDF22873-E622-4C74-B7A5-D0D48D5FFAD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDF22873-E622-4C74-B7A5-D0D48D5FFAD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDF22873-E622-4C74-B7A5-D0D48D5FFAD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

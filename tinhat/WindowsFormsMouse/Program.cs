@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace WinFormsKeyboardInputPrompt
+namespace WindowsFormsMouse
 {
     static class Program
     {
@@ -15,11 +15,12 @@ namespace WinFormsKeyboardInputPrompt
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var myForm = new FormKeyboardInputPrompt(128);  // Request 128 characters, ~128 bits of entropy
+            var myForm = new FormMouseInput(32);   // Request 32 bytes, ~256 bits of entropy
             DialogResult result = myForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                MessageBox.Show("Got string: '" + myForm.GetUserString() + "'");
+                byte[] resultBytes = myForm.GetBytes();
+                MessageBox.Show("Got bytes: '" + BitConverter.ToString(resultBytes) + "'");
             }
             else
             {
