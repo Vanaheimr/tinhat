@@ -50,10 +50,6 @@
       <Project>{d2282aee-37a5-4f1d-91d7-a418cdd74ccd}</Project>
       <Name>tinhat</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WinFormsKeyboardInputPrompt\WinFormsKeyboardInputPrompt.csproj">
-      <Project>{24a9dbf2-c288-46b5-8891-c29143443e66}</Project>
-      <Name>WinFormsKeyboardInputPrompt</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
