@@ -1,124 +1,134 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HelpTOC>
 
-  <HelpTOCNode Id="ba2b004a-0024-4ac2-9577-9e49582f8174" Title="tinhat Namespace" Url="html/7022855.htm">
-    <HelpTOCNode Id="7cbe8c3b-5eef-47f2-9634-1e76ffb58ff2" Title="StartEarly Class" Url="html/1486673411.htm">
+  <HelpTOCNode Id="6589d6ce-2097-4b26-a6a3-e80c24f4fe5f" Title="tinhat Namespace" Url="html/7022855.htm">
+    <HelpTOCNode Id="c0c48ed8-2b37-4d14-a79f-9778056970dd" Title="StartEarly Class" Url="html/1486673411.htm">
       <HelpTOCNode Title="StartEarly Members" Url="html/244647306.htm" />
-      <HelpTOCNode Id="00102b1b-7468-4a60-85ab-e1a3f7444d15" Title="StartEarly Methods" Url="html/647898758.htm">
+      <HelpTOCNode Id="28f1a3c0-0882-40dc-84ad-62be971be822" Title="StartEarly Methods" Url="html/647898758.htm">
         <HelpTOCNode Title="StartFillingEntropyPools Method " Url="html/1883290966.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="4a09763c-4f43-4029-ac44-5749c5842d0d" Title="TinHatRandom Class" Url="html/1974752009.htm">
+    <HelpTOCNode Id="bef0ce2c-25fd-43e2-93e2-aa5800dd213f" Title="TinHatRandom Class" Url="html/1974752009.htm">
       <HelpTOCNode Title="TinHatRandom Members" Url="html/325929986.htm" />
-      <HelpTOCNode Id="4f88fe45-1cbf-4d5f-8b56-aa3629a973ba" Title="TinHatRandom Constructor " Url="html/528764221.htm">
+      <HelpTOCNode Id="41878fcc-84cf-4340-a58a-a5fa4b837db9" Title="TinHatRandom Constructor " Url="html/528764221.htm">
         <HelpTOCNode Title="TinHatRandom Constructor " Url="html/2011709994.htm" />
         <HelpTOCNode Title="TinHatRandom Constructor (List`1)" Url="html/2014878921.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="6615885d-94c5-4086-a485-27e0dd342e39" Title="TinHatRandom Methods" Url="html/1100459128.htm">
+      <HelpTOCNode Id="d02c29d7-b627-47cb-864f-ce816cd8fab4" Title="TinHatRandom Methods" Url="html/1100459128.htm">
         <HelpTOCNode Title="GetBytes Method " Url="html/325520439.htm" />
         <HelpTOCNode Title="GetNonZeroBytes Method " Url="html/1345135345.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="86dbfc6c-26b4-43c8-94a8-df8320bdb102" Title="TinHatURandom Class" Url="html/2066684118.htm">
+    <HelpTOCNode Id="134aa8b9-ddee-4a18-b1f4-e4e2601e18d7" Title="TinHatURandom Class" Url="html/2066684118.htm">
       <HelpTOCNode Title="TinHatURandom Members" Url="html/1519808138.htm" />
-      <HelpTOCNode Id="1903384c-a797-4c75-bbde-e83db83377c7" Title="TinHatURandom Constructor " Url="html/1566304655.htm">
+      <HelpTOCNode Id="0c4b4d70-6d89-4a20-addf-ee67e668847f" Title="TinHatURandom Constructor " Url="html/1566304655.htm">
         <HelpTOCNode Title="TinHatURandom Constructor " Url="html/2079269071.htm" />
         <HelpTOCNode Title="TinHatURandom Constructor (IDigest)" Url="html/1195653626.htm" />
         <HelpTOCNode Title="TinHatURandom Constructor (List`1, IDigest)" Url="html/1945365860.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="0780bb82-5d7c-4776-a15d-23fbf3cf98b2" Title="TinHatURandom Fields" Url="html/173248628.htm">
+      <HelpTOCNode Id="14e6cc2c-ddb9-4af6-966a-83bea337d168" Title="TinHatURandom Fields" Url="html/173248628.htm">
         <HelpTOCNode Title="SeedSize Field" Url="html/1591598237.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="5c784ab8-5010-46c8-a165-e9c1aa18dd71" Title="TinHatURandom Methods" Url="html/548606393.htm">
+      <HelpTOCNode Id="a32e8284-b4e3-4a49-a94e-4959b565cf5f" Title="TinHatURandom Methods" Url="html/548606393.htm">
         <HelpTOCNode Title="GetBytes Method " Url="html/1166280916.htm" />
         <HelpTOCNode Title="GetNonZeroBytes Method " Url="html/152218678.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
   </HelpTOCNode>
-  <HelpTOCNode Id="c1a36f45-bed5-4674-b110-b3b75c03d427" Title="tinhat.EntropySources Namespace" Url="html/60900893.htm">
-    <HelpTOCNode Id="2854cc99-dbb5-436e-adee-ae4acc7c5758" Title="SystemRNGCryptoServiceProvider Class" Url="html/956292012.htm">
+  <HelpTOCNode Id="8663318c-4abb-4fbb-a40b-faa0666ecc91" Title="tinhat.EntropySources Namespace" Url="html/60900893.htm">
+    <HelpTOCNode Id="c63a25b5-447e-4d71-a0d7-b1a952cd894e" Title="EntropyFileRNG Class" Url="html/547406194.htm">
+      <HelpTOCNode Title="EntropyFileRNG Members" Url="html/143702427.htm" />
+      <HelpTOCNode Title="EntropyFileRNG Constructor " Url="html/436905940.htm" />
+      <HelpTOCNode Id="f065adc4-3208-4043-a310-a8f08c60d297" Title="EntropyFileRNG Methods" Url="html/184721124.htm">
+        <HelpTOCNode Title="GetBytes Method " Url="html/1476626269.htm" />
+        <HelpTOCNode Title="GetNonZeroBytes Method " Url="html/504519468.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+    <HelpTOCNode Title="EntropyFileRNG.MixingAlgorithm Enumeration" Url="html/616877201.htm" />
+    <HelpTOCNode Title="EntropyFileRNG.PrngAlgorithm Enumeration" Url="html/1323750708.htm" />
+    <HelpTOCNode Id="612d131b-23f0-41ba-ba3f-5fbb620adc4a" Title="SystemRNGCryptoServiceProvider Class" Url="html/956292012.htm">
       <HelpTOCNode Title="SystemRNGCryptoServiceProvider Members" Url="html/446240559.htm" />
-      <HelpTOCNode Id="ce4bb128-406a-4cd8-aa1e-8dcc7ff2d16b" Title="SystemRNGCryptoServiceProvider Methods" Url="html/702122951.htm">
+      <HelpTOCNode Id="2c3207b0-5dc0-4dfe-87bc-6ca7c61f49a7" Title="SystemRNGCryptoServiceProvider Methods" Url="html/702122951.htm">
         <HelpTOCNode Title="GetBytes Method " Url="html/2120829296.htm" />
         <HelpTOCNode Title="GetNonZeroBytes Method " Url="html/1891499763.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="39bac626-7268-4b53-8541-7a0a72c411aa" Title="ThreadedSeedGeneratorRNG Class" Url="html/1814522618.htm">
+    <HelpTOCNode Id="52d0538b-8184-4214-887f-78f7ebfb1f79" Title="ThreadedSeedGeneratorRNG Class" Url="html/1814522618.htm">
       <HelpTOCNode Title="ThreadedSeedGeneratorRNG Members" Url="html/993635591.htm" />
-      <HelpTOCNode Id="b74eb0ec-037c-4283-9c79-b0682d69ce14" Title="ThreadedSeedGeneratorRNG Constructor " Url="html/1114013926.htm">
+      <HelpTOCNode Id="32091c0a-22e3-4929-a1ef-7ea956030f58" Title="ThreadedSeedGeneratorRNG Constructor " Url="html/1114013926.htm">
         <HelpTOCNode Title="ThreadedSeedGeneratorRNG Constructor " Url="html/872065040.htm" />
         <HelpTOCNode Title="ThreadedSeedGeneratorRNG Constructor (Int32)" Url="html/241335480.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="f7ce9e1e-aefe-47cb-9a6d-3a7dd92ee9c0" Title="ThreadedSeedGeneratorRNG Methods" Url="html/2043175699.htm">
+      <HelpTOCNode Id="3adbf552-4d6a-4c6f-8bd7-7a52bcc974c1" Title="ThreadedSeedGeneratorRNG Methods" Url="html/2043175699.htm">
         <HelpTOCNode Title="GetAvailableBytes Method " Url="html/1871792614.htm" />
         <HelpTOCNode Title="GetBytes Method " Url="html/1344670039.htm" />
         <HelpTOCNode Title="GetNonZeroBytes Method " Url="html/333279726.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="173df634-bc82-452b-beb3-eb1daee69efa" Title="ThreadedSeedGeneratorRNG Properties" Url="html/578965879.htm">
+      <HelpTOCNode Id="be259b36-5687-4af0-94fd-3d0f123a3943" Title="ThreadedSeedGeneratorRNG Properties" Url="html/578965879.htm">
         <HelpTOCNode Title="MaxPoolSize Property " Url="html/480114928.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="d10a3f7b-e097-4327-baab-c869a939a3f5" Title="ThreadSchedulerRNG Class" Url="html/1142857277.htm">
+    <HelpTOCNode Id="362770ff-9cbf-4f31-b059-1a06dfba8668" Title="ThreadSchedulerRNG Class" Url="html/1142857277.htm">
       <HelpTOCNode Title="ThreadSchedulerRNG Members" Url="html/1936198763.htm" />
-      <HelpTOCNode Id="00dbf3fc-bac2-4f6d-98d1-cd806914cbdf" Title="ThreadSchedulerRNG Constructor " Url="html/808140476.htm">
+      <HelpTOCNode Id="c3ffbe68-2986-4cd5-b789-3c35eb5a21a0" Title="ThreadSchedulerRNG Constructor " Url="html/808140476.htm">
         <HelpTOCNode Title="ThreadSchedulerRNG Constructor " Url="html/1122247890.htm" />
         <HelpTOCNode Title="ThreadSchedulerRNG Constructor (Int32)" Url="html/1632062227.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="09c104ce-227a-4e5e-bb7b-42e4696ce6e8" Title="ThreadSchedulerRNG Methods" Url="html/1596232947.htm">
+      <HelpTOCNode Id="036b322a-3650-4615-95f7-a413151ae1e2" Title="ThreadSchedulerRNG Methods" Url="html/1596232947.htm">
         <HelpTOCNode Title="GetAvailableBytes Method " Url="html/1853432330.htm" />
         <HelpTOCNode Title="GetBytes Method " Url="html/1877377574.htm" />
         <HelpTOCNode Title="GetNonZeroBytes Method " Url="html/347557294.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="0d2f8d0e-e27c-440b-b8d6-b55b33609cf9" Title="ThreadSchedulerRNG Properties" Url="html/1488886025.htm">
+      <HelpTOCNode Id="7cee6e3e-8b2e-4999-96eb-68bfd9d85163" Title="ThreadSchedulerRNG Properties" Url="html/1488886025.htm">
         <HelpTOCNode Title="MaxPoolSize Property " Url="html/313748418.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="1888f938-4a11-44fe-9c7f-dc13446e1721" Title="UserStringRNG Class" Url="html/1658582662.htm">
+    <HelpTOCNode Id="6b4379df-d15d-4567-9ad3-cadfecd748be" Title="UserStringRNG Class" Url="html/1658582662.htm">
       <HelpTOCNode Title="UserStringRNG Members" Url="html/2016718237.htm" />
-      <HelpTOCNode Id="cdd17075-2c20-43db-83c9-4f2fd7f513ad" Title="UserStringRNG Constructor " Url="html/1903573310.htm">
+      <HelpTOCNode Id="2b97397a-159f-46ac-ab63-845c6fe7e2b8" Title="UserStringRNG Constructor " Url="html/1903573310.htm">
         <HelpTOCNode Title="UserStringRNG Constructor (String)" Url="html/1707399204.htm" />
         <HelpTOCNode Title="UserStringRNG Constructor (String, IDigest)" Url="html/1148544379.htm" />
         <HelpTOCNode Title="UserStringRNG Constructor (, IDigest)" Url="html/2085288433.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="a45590d6-f574-4a24-a748-196138532759" Title="UserStringRNG Methods" Url="html/1412806838.htm">
+      <HelpTOCNode Id="8cb565c5-4e60-41db-9d99-38e7cc847e27" Title="UserStringRNG Methods" Url="html/1412806838.htm">
         <HelpTOCNode Title="GetBytes Method " Url="html/740250174.htm" />
         <HelpTOCNode Title="GetNonZeroBytes Method " Url="html/2107944744.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
   </HelpTOCNode>
-  <HelpTOCNode Id="de3b557e-a934-42cf-936c-ae85b7e5f679" Title="tinhat.SupportingClasses Namespace" Url="html/1697403765.htm">
-    <HelpTOCNode Id="90ce6e1d-1542-46ad-8c41-6ae1b98c7f11" Title="EntropyHasher Class" Url="html/26895090.htm">
+  <HelpTOCNode Id="283cbf15-d459-4ff4-88d6-56e199a54c14" Title="tinhat.SupportingClasses Namespace" Url="html/1697403765.htm">
+    <HelpTOCNode Id="b6e310ce-d1e3-4b48-95be-1fdeced80ce3" Title="EntropyHasher Class" Url="html/26895090.htm">
       <HelpTOCNode Title="EntropyHasher Members" Url="html/318283563.htm" />
-      <HelpTOCNode Id="aa17681e-41c2-4f4d-a168-96b69e0e793e" Title="EntropyHasher Constructor " Url="html/1140947273.htm">
+      <HelpTOCNode Id="3ce0ce8d-33ca-4c3c-a6ec-cc9ab1399907" Title="EntropyHasher Constructor " Url="html/1140947273.htm">
         <HelpTOCNode Title="EntropyHasher Constructor (RandomNumberGenerator, HashAlgorithmWrapper)" Url="html/446344016.htm" />
         <HelpTOCNode Title="EntropyHasher Constructor (RandomNumberGenerator, List`1)" Url="html/65404239.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="3947a9f1-bf32-4631-a769-86609df45f89" Title="EntropyHasher Fields" Url="html/2119545820.htm">
+      <HelpTOCNode Id="5654e00d-8bd5-4e92-9e9f-8fcb9862004c" Title="EntropyHasher Fields" Url="html/2119545820.htm">
         <HelpTOCNode Title="HashWrappers Field" Url="html/1236241302.htm" />
         <HelpTOCNode Title="RNG Field" Url="html/201444099.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="e1fa4b5a-c1f1-4b0b-a9fe-ff9756f6679f" Title="EntropyHasher Methods" Url="html/168267560.htm">
+      <HelpTOCNode Id="f9cb4217-4dce-4f5d-9e67-a1f9f9d61683" Title="EntropyHasher Methods" Url="html/168267560.htm">
         <HelpTOCNode Title="Dispose Method " Url="html/1636817934.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="3a23a975-4032-4def-8c5e-38ef35cfe223" Title="FifoStream Class" Url="html/1015870021.htm">
+    <HelpTOCNode Id="20f816da-8676-4b95-a059-09289751dc06" Title="FifoStream Class" Url="html/1015870021.htm">
       <HelpTOCNode Title="FifoStream Members" Url="html/1220086289.htm" />
-      <HelpTOCNode Id="14a5a208-0314-4d9b-aa61-10fed253cfcc" Title="FifoStream Constructor " Url="html/359675784.htm">
+      <HelpTOCNode Id="5bb75b19-82c2-4451-8e70-6cddca067ba1" Title="FifoStream Constructor " Url="html/359675784.htm">
         <HelpTOCNode Title="FifoStream Constructor " Url="html/1681989.htm" />
         <HelpTOCNode Title="FifoStream Constructor (Boolean)" Url="html/716088494.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="88a227c3-0d58-40fa-9000-21884838464a" Title="FifoStream Methods" Url="html/964297067.htm">
+      <HelpTOCNode Id="bfc3681f-be28-4a55-af20-547e9a00bbea" Title="FifoStream Methods" Url="html/964297067.htm">
         <HelpTOCNode Title="Flush Method " Url="html/389135429.htm" />
-        <HelpTOCNode Id="8eb20950-5687-4741-a22f-18f0743fb7d9" Title="Read Method " Url="html/203218759.htm">
+        <HelpTOCNode Id="38fbc8dd-5b9a-4dcf-b5a6-412227579e44" Title="Read Method " Url="html/203218759.htm">
           <HelpTOCNode Title="Read Method " Url="html/954696351.htm" />
         </HelpTOCNode>
-        <HelpTOCNode Id="359de367-8975-4f58-a541-b18678cb6ed7" Title="Seek Method " Url="html/559292602.htm">
+        <HelpTOCNode Id="0e7b7013-54c5-4dd3-8d85-b1069fe4d926" Title="Seek Method " Url="html/559292602.htm">
           <HelpTOCNode Title="Seek Method " Url="html/1087886817.htm" />
         </HelpTOCNode>
         <HelpTOCNode Title="SetLength Method " Url="html/903035340.htm" />
         <HelpTOCNode Title="Write Method " Url="html/64113841.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="f5782cd9-ecdb-4628-9071-f366789a0b0f" Title="FifoStream Properties" Url="html/1769196211.htm">
+      <HelpTOCNode Id="11311c96-b07c-4569-be6a-ba047b754062" Title="FifoStream Properties" Url="html/1769196211.htm">
         <HelpTOCNode Title="CanRead Property " Url="html/1543762217.htm" />
         <HelpTOCNode Title="CanSeek Property " Url="html/1984368336.htm" />
         <HelpTOCNode Title="CanWrite Property " Url="html/872231630.htm" />
@@ -128,19 +138,41 @@
         <HelpTOCNode Title="Zeroize Property " Url="html/1348918421.htm" />
       </HelpTOCNode>
     </HelpTOCNode>
-    <HelpTOCNode Id="a5476a93-022f-448b-9811-22d85d3e5604" Title="HashAlgorithmWrapper Class" Url="html/1267281526.htm">
+    <HelpTOCNode Id="96b6dea2-7f2f-4d54-b549-254530142212" Title="HashAlgorithmWrapper Class" Url="html/1267281526.htm">
       <HelpTOCNode Title="HashAlgorithmWrapper Members" Url="html/1392436184.htm" />
-      <HelpTOCNode Id="c49ab788-ce57-4496-aefb-935e74b9b0f1" Title="HashAlgorithmWrapper Constructor " Url="html/648076439.htm">
+      <HelpTOCNode Id="c63f32ac-e890-4d5a-b3c9-4d7b623aa361" Title="HashAlgorithmWrapper Constructor " Url="html/648076439.htm">
         <HelpTOCNode Title="HashAlgorithmWrapper Constructor (HashAlgorithm)" Url="html/677283489.htm" />
         <HelpTOCNode Title="HashAlgorithmWrapper Constructor (IDigest)" Url="html/315897101.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="75698b1b-e220-4209-b2e0-caa9f770b939" Title="HashAlgorithmWrapper Methods" Url="html/1327085579.htm">
+      <HelpTOCNode Id="54e57dd5-49db-488d-ba03-5bedee14e4db" Title="HashAlgorithmWrapper Methods" Url="html/1327085579.htm">
         <HelpTOCNode Title="ComputeHash Method " Url="html/1284637549.htm" />
         <HelpTOCNode Title="Dispose Method " Url="html/518036061.htm" />
       </HelpTOCNode>
-      <HelpTOCNode Id="9c2164b2-b7a6-40dc-bb35-a3728c4fb9aa" Title="HashAlgorithmWrapper Properties" Url="html/1011204741.htm">
+      <HelpTOCNode Id="18f43c67-c2aa-4c30-8d70-ff0ad060b496" Title="HashAlgorithmWrapper Properties" Url="html/1011204741.htm">
         <HelpTOCNode Title="HashSizeInBits Property " Url="html/1024145257.htm" />
       </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="6e7efa10-05df-4e4c-9884-87f64bf28160" Title="WindowsFormsMouse Namespace" Url="html/1943071531.htm">
+    <HelpTOCNode Id="c57c365e-05f0-4dc4-b8df-25f49db8f26f" Title="FormMouseInput Class" Url="html/1742654571.htm">
+      <HelpTOCNode Title="FormMouseInput Members" Url="html/1575428286.htm" />
+      <HelpTOCNode Title="FormMouseInput Constructor " Url="html/22341119.htm" />
+      <HelpTOCNode Id="ce831709-7e7b-44b1-be02-29ea3d078c4a" Title="FormMouseInput Methods" Url="html/1682349708.htm">
+        <HelpTOCNode Title="GetBytes Method " Url="html/479743159.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="FormMouseInput Properties" Url="html/9405865.htm" />
+      <HelpTOCNode Title="FormMouseInput Events" Url="html/21631340.htm" />
+    </HelpTOCNode>
+  </HelpTOCNode>
+  <HelpTOCNode Id="20d81490-a352-435c-9b2d-120066fc3c95" Title="WinFormsKeyboardInputPrompt Namespace" Url="html/532483787.htm">
+    <HelpTOCNode Id="4159ceb2-2fd1-4aba-ae64-0d12e73ef663" Title="FormKeyboardInputPrompt Class" Url="html/1887310258.htm">
+      <HelpTOCNode Title="FormKeyboardInputPrompt Members" Url="html/291959539.htm" />
+      <HelpTOCNode Title="FormKeyboardInputPrompt Constructor " Url="html/466350825.htm" />
+      <HelpTOCNode Id="4bef36fc-cb14-47ae-a826-61c306615701" Title="FormKeyboardInputPrompt Methods" Url="html/1948998922.htm">
+        <HelpTOCNode Title="GetUserString Method " Url="html/2019630835.htm" />
+      </HelpTOCNode>
+      <HelpTOCNode Title="FormKeyboardInputPrompt Properties" Url="html/8339342.htm" />
+      <HelpTOCNode Title="FormKeyboardInputPrompt Events" Url="html/2106507502.htm" />
     </HelpTOCNode>
   </HelpTOCNode>
 </HelpTOC>

@@ -10,14 +10,14 @@ namespace tinhat
     /// <summary>
     /// TinHatRandom returns cryptographically strong random data, never to exceed the number of bytes available from 
     /// the specified entropy sources.  This can cause slow generation, and is recommended only for generating extremely
-    /// strong, long-lived keys.  This is CPU intensive, and perhaps generates a few KB/sec.  For general purposes, see 
-    /// TinHatURandom instead.
+    /// strong keys and other things that don't require a large number of bytes quickly.  This is CPU intensive, and perhaps 
+    /// generates a few KB/sec.  For general purposes, see TinHatURandom instead.
     /// </summary>
     /// <remarks>
     /// TinHatRandom returns cryptographically strong random data, never to exceed the number of bytes available from 
     /// the specified entropy sources.  This can cause slow generation, and is recommended only for generating extremely
-    /// strong, long-lived keys.  This is CPU intensive, and perhaps generates a few KB/sec.  For general purposes, see 
-    /// TinHatURandom instead.
+    /// strong keys and other things that don't require a large number of bytes quickly.  This is CPU intensive, and perhaps 
+    /// generates a few KB/sec.  For general purposes, see TinHatURandom instead.
     /// </remarks>
     /// <example><code>
     /// static void Main(string[] args)
@@ -27,7 +27,10 @@ namespace tinhat
     ///     const int blockSize = 640;
     ///
     ///     // On my system, this generated about 15-60 KiB/sec
-    ///     // default constructor uses SystemRNGCryptoServiceProvider/SHA256, ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest
+    ///     // default TinHatRandom() constructor uses:
+    ///     //     SystemRNGCryptoServiceProvider/SHA256, 
+    ///     //     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,
+    ///     //     (if available) EntropyFileRNG/SHA256
     ///     using (var rng = new TinHatRandom())
     ///     {
     ///         for (int i = 0; i &lt; 125; i++)
@@ -60,6 +63,21 @@ namespace tinhat
                 HashWrappers.Add(new SupportingClasses.HashAlgorithmWrapper(SHA256.Create()));
                 HashWrappers.Add(new SupportingClasses.HashAlgorithmWrapper(new RipeMD256Digest()));
                 this.EntropyHashers.Add(new SupportingClasses.EntropyHasher(RNG, HashWrappers));
+            }
+
+            // If available, add EntropyFileRNG as entropy source
+            {
+                EntropySources.EntropyFileRNG RNG = null;
+                try
+                {
+                    RNG = new EntropySources.EntropyFileRNG();
+                }
+                catch { }   // EntropyFileRNG thows exceptions if it hasn't been seeded yet, if it encouters corruption, etc.
+                if (RNG != null)
+                {
+                    var HashWrapper = new SupportingClasses.HashAlgorithmWrapper(SHA256.Create());
+                    this.EntropyHashers.Add(new SupportingClasses.EntropyHasher(RNG, HashWrapper));
+                }
             }
 
             CtorSanityCheck();

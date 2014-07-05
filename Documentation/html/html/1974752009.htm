@@ -66,6 +66,10 @@
     <span class="highlight-keyword">const</span> <span class="highlight-keyword">int</span> blockSize = <span class="highlight-number">640</span>;
 
     <span class="highlight-comment">// On my system, this generated about 15-60 KiB/sec</span>
+    <span class="highlight-comment">// default constructor uses:</span>
+    <span class="highlight-comment">//     SystemRNGCryptoServiceProvider/SHA256,</span>
+    <span class="highlight-comment">//     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,</span>
+    <span class="highlight-comment">//     (if available) EntropyFileRNG/SHA256</span>
     <span class="highlight-keyword">using</span> (<span class="highlight-keyword">var</span> rng = <span class="highlight-keyword">new</span> TinHatRandom())
     {
         <span class="highlight-keyword">for</span> (<span class="highlight-keyword">int</span> i = <span class="highlight-number">0</span>; i &lt; <span class="highlight-number">125</span>; i++)

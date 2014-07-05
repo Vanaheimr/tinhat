@@ -4,7 +4,7 @@
 <html>
 
 <head>
-<title>tinhat - Table of Content</title>
+<title>tinhat (visual studio) - Table of Content</title>
 <link rel="stylesheet" href="TOC.css">
 <link rel="shortcut icon" href="favicon.ico"/>
 <script type="text/javascript" src="TOC.js"></script>

@@ -13,14 +13,14 @@ namespace tinhat
     /// <summary>
     /// TinHatURandom returns cryptographically strong random data.  It uses a crypto prng to generate more bytes than
     /// actually available in hardware entropy, so it's about 1,000 times faster than TinHatRandom.  For general purposes, 
-    /// TinHatURandom is recommended because of its performance characteristics, but for extremely strong, long-lived keys, 
-    /// TinHatRandom is recommended instead.
+    /// TinHatURandom is recommended because of its performance characteristics, but for extremely strong keys and other
+    /// things that don't require a large number of bytes quickly, TinHatRandom is recommended instead.
     /// </summary>
     /// <remarks>
     /// TinHatURandom returns cryptographically strong random data.  It uses a crypto prng to generate more bytes than
     /// actually available in hardware entropy, so it's about 1,000 times faster than TinHatRandom.  For general purposes, 
-    /// TinHatURandom is recommended because of its performance characteristics, but for extremely strong, long-lived keys, 
-    /// TinHatRandom is recommended instead.
+    /// TinHatURandom is recommended because of its performance characteristics, but for extremely strong keys and other
+    /// things that don't require a large number of bytes quickly, TinHatRandom is recommended instead.
     /// </remarks>
     /// <example><code>
     /// static void Main(string[] args)
@@ -30,7 +30,10 @@ namespace tinhat
     ///     const int blockSize = 640;
     ///
     ///     // On my system, this generated about 2-6 MiB/sec
-    ///     // default constructor uses SystemRNGCryptoServiceProvider/SHA256, ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest
+    ///     // default TinHatURandom() constructor uses the TinHatRandom() default constructor, which uses:
+    ///     //     SystemRNGCryptoServiceProvider/SHA256, 
+    ///     //     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,
+    ///     //     (if available) EntropyFileRNG/SHA256
     ///     using (var rng = new TinHatURandom())
     ///     {
     ///         for (int i = 0; i &lt; 32000; i++)

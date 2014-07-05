@@ -36,12 +36,14 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntropySources\EntropyFileRNG.cs" />
     <Compile Include="EntropySources\SystemRNGCryptoServiceProvider.cs" />
     <Compile Include="EntropySources\ThreadedSeedGeneratorRNG.cs" />
     <Compile Include="EntropySources\ThreadSchedulerRNG.cs" />
