@@ -45,7 +45,7 @@
                 <div class="summary">
    In a multitasking OS, each individual thread never knows when it's going to be granted execution time,
    as many processes and threads compete for CPU cycles.  The granularity of time to wake up from sleep is
-   something like +/- a few ms, while the granularity of DateTime.Now is Ticks, 10m per second.  Although
+   something like +/- a few ms, while the granularity of DateTime.Now is Ticks, 10million per second.  Although
    the OS scheduler is surely deterministic, there should be a fair amount of entropy in the least significant
    bit of DateTime.Now.Ticks upon thread waking.  But since the OS scheduler is surely deterministic, it is
    not recommended to use ThreadSchedulerRNG as your only entropy source.  It is recommended to use this

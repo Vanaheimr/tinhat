@@ -15,7 +15,7 @@ namespace WinFormsKeyboardInputPrompt
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var myForm = new FormKeyboardInputPrompt(128);
+            var myForm = new FormKeyboardInputPrompt(128);  // Request 128 characters, ~128 bits of entropy
             DialogResult result = myForm.ShowDialog();
             if (result == DialogResult.OK)
             {

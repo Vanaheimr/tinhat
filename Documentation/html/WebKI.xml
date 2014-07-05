@@ -5,6 +5,19 @@
   <HelpKINode Title="CanWrite property" Url="html/872231630.htm" />
   <HelpKINode Title="ComputeHash method" Url="html/1284637549.htm" />
   <HelpKINode Title="Dispose method" Url="html/1636817934.htm" />
+  <HelpKINode Title="EntropyFileRNG class">
+    <HelpKINode Title="EntropyFileRNG Class" Url="html/547406194.htm" />
+    <HelpKINode Title="EntropyFileRNG Members" Url="html/143702427.htm" />
+    <HelpKINode Title="about EntropyFileRNG class" Url="html/547406194.htm" />
+    <HelpKINode Title="all members" Url="html/143702427.htm" />
+    <HelpKINode Title="constructor" Url="html/436905940.htm" />
+    <HelpKINode Title="methods" Url="html/184721124.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EntropyFileRNG.EntropyFileRNG constructor" Url="html/436905940.htm" />
+  <HelpKINode Title="EntropyFileRNG.GetBytes method" Url="html/1476626269.htm" />
+  <HelpKINode Title="EntropyFileRNG.GetNonZeroBytes method" Url="html/504519468.htm" />
+  <HelpKINode Title="EntropyFileRNG.MixingAlgorithm enumeration" Url="html/616877201.htm" />
+  <HelpKINode Title="EntropyFileRNG.PrngAlgorithm enumeration" Url="html/1323750708.htm" />
   <HelpKINode Title="EntropyHasher class">
     <HelpKINode Title="EntropyHasher Class" Url="html/26895090.htm" />
     <HelpKINode Title="EntropyHasher Members" Url="html/318283563.htm" />
@@ -36,8 +49,8 @@
   <HelpKINode Title="FifoStream.Length property" Url="html/1967081540.htm" />
   <HelpKINode Title="FifoStream.Position property" Url="html/1093886203.htm" />
   <HelpKINode Title="FifoStream.Read method">
-    <HelpKINode Title="Read Method " Url="html/203218759.htm" />
     <HelpKINode Title="Read Method " Url="html/954696351.htm" />
+    <HelpKINode Title="Read Method " Url="html/203218759.htm" />
   </HelpKINode>
   <HelpKINode Title="FifoStream.Seek method">
     <HelpKINode Title="Seek Method " Url="html/1087886817.htm" />
@@ -47,26 +60,54 @@
   <HelpKINode Title="FifoStream.Write method" Url="html/64113841.htm" />
   <HelpKINode Title="FifoStream.Zeroize property" Url="html/1348918421.htm" />
   <HelpKINode Title="Flush method" Url="html/389135429.htm" />
+  <HelpKINode Title="FormKeyboardInputPrompt class">
+    <HelpKINode Title="FormKeyboardInputPrompt Class" Url="html/1887310258.htm" />
+    <HelpKINode Title="FormKeyboardInputPrompt Members" Url="html/291959539.htm" />
+    <HelpKINode Title="about FormKeyboardInputPrompt class" Url="html/1887310258.htm" />
+    <HelpKINode Title="all members" Url="html/291959539.htm" />
+    <HelpKINode Title="constructor" Url="html/466350825.htm" />
+    <HelpKINode Title="events" Url="html/2106507502.htm" />
+    <HelpKINode Title="methods" Url="html/1948998922.htm" />
+    <HelpKINode Title="properties" Url="html/8339342.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FormKeyboardInputPrompt.FormKeyboardInputPrompt constructor" Url="html/466350825.htm" />
+  <HelpKINode Title="FormKeyboardInputPrompt.GetUserString method" Url="html/2019630835.htm" />
+  <HelpKINode Title="FormMouseInput class">
+    <HelpKINode Title="FormMouseInput Class" Url="html/1742654571.htm" />
+    <HelpKINode Title="FormMouseInput Members" Url="html/1575428286.htm" />
+    <HelpKINode Title="about FormMouseInput class" Url="html/1742654571.htm" />
+    <HelpKINode Title="all members" Url="html/1575428286.htm" />
+    <HelpKINode Title="constructor" Url="html/22341119.htm" />
+    <HelpKINode Title="events" Url="html/21631340.htm" />
+    <HelpKINode Title="methods" Url="html/1682349708.htm" />
+    <HelpKINode Title="properties" Url="html/9405865.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FormMouseInput.FormMouseInput constructor" Url="html/22341119.htm" />
+  <HelpKINode Title="FormMouseInput.GetBytes method" Url="html/479743159.htm" />
   <HelpKINode Title="GetAvailableBytes method">
     <HelpKINode Title="GetAvailableBytes Method " Url="html/1853432330.htm" />
     <HelpKINode Title="GetAvailableBytes Method " Url="html/1871792614.htm" />
   </HelpKINode>
   <HelpKINode Title="GetBytes method">
-    <HelpKINode Title="GetBytes Method " Url="html/1166280916.htm" />
     <HelpKINode Title="GetBytes Method " Url="html/325520439.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/1476626269.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/2120829296.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/1166280916.htm" />
+    <HelpKINode Title="GetBytes Method " Url="html/479743159.htm" />
     <HelpKINode Title="GetBytes Method " Url="html/740250174.htm" />
     <HelpKINode Title="GetBytes Method " Url="html/1344670039.htm" />
-    <HelpKINode Title="GetBytes Method " Url="html/2120829296.htm" />
     <HelpKINode Title="GetBytes Method " Url="html/1877377574.htm" />
   </HelpKINode>
   <HelpKINode Title="GetNonZeroBytes method">
-    <HelpKINode Title="GetNonZeroBytes Method " Url="html/152218678.htm" />
-    <HelpKINode Title="GetNonZeroBytes Method " Url="html/1891499763.htm" />
-    <HelpKINode Title="GetNonZeroBytes Method " Url="html/2107944744.htm" />
-    <HelpKINode Title="GetNonZeroBytes Method " Url="html/347557294.htm" />
-    <HelpKINode Title="GetNonZeroBytes Method " Url="html/333279726.htm" />
     <HelpKINode Title="GetNonZeroBytes Method " Url="html/1345135345.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/1891499763.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/333279726.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/2107944744.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/152218678.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/504519468.htm" />
+    <HelpKINode Title="GetNonZeroBytes Method " Url="html/347557294.htm" />
   </HelpKINode>
+  <HelpKINode Title="GetUserString method" Url="html/2019630835.htm" />
   <HelpKINode Title="HashAlgorithmWrapper class">
     <HelpKINode Title="HashAlgorithmWrapper Class" Url="html/1267281526.htm" />
     <HelpKINode Title="HashAlgorithmWrapper Members" Url="html/1392436184.htm" />
@@ -84,14 +125,43 @@
   <HelpKINode Title="IOException property" Url="html/1080356614.htm" />
   <HelpKINode Title="Length property" Url="html/1967081540.htm" />
   <HelpKINode Title="MaxPoolSize property">
-    <HelpKINode Title="MaxPoolSize Property " Url="html/480114928.htm" />
     <HelpKINode Title="MaxPoolSize Property " Url="html/313748418.htm" />
+    <HelpKINode Title="MaxPoolSize Property " Url="html/480114928.htm" />
   </HelpKINode>
+  <HelpKINode Title="MD5 enumeration member" Url="html/616877201.htm" />
+  <HelpKINode Title="MD5 field" Url="html/501047944.htm" />
+  <HelpKINode Title="MD5_128bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="MD5_128bit field" Url="html/1236654147.htm" />
+  <HelpKINode Title="MixingAlgorithm.MD5 field" Url="html/501047944.htm" />
+  <HelpKINode Title="MixingAlgorithm.RIPEMD160 field" Url="html/191530965.htm" />
+  <HelpKINode Title="MixingAlgorithm.SHA1 field" Url="html/1344544478.htm" />
+  <HelpKINode Title="MixingAlgorithm.SHA256 field" Url="html/400186599.htm" />
+  <HelpKINode Title="MixingAlgorithm.SHA512 field" Url="html/401223290.htm" />
   <HelpKINode Title="Position property" Url="html/1093886203.htm" />
+  <HelpKINode Title="PrngAlgorithm.MD5_128bit field" Url="html/1236654147.htm" />
+  <HelpKINode Title="PrngAlgorithm.RIPEMD128_128bit field" Url="html/1672801179.htm" />
+  <HelpKINode Title="PrngAlgorithm.RIPEMD160_160bit field" Url="html/1153763747.htm" />
+  <HelpKINode Title="PrngAlgorithm.RIPEMD256_256bit field" Url="html/856493273.htm" />
+  <HelpKINode Title="PrngAlgorithm.RIPEMD320_320bit field" Url="html/1820005477.htm" />
+  <HelpKINode Title="PrngAlgorithm.SHA1_160bit field" Url="html/846053413.htm" />
+  <HelpKINode Title="PrngAlgorithm.SHA256_256bit field" Url="html/2023250415.htm" />
+  <HelpKINode Title="PrngAlgorithm.SHA512_512bit field" Url="html/218745113.htm" />
+  <HelpKINode Title="PrngAlgorithm.Tiger_192bit field" Url="html/719443254.htm" />
+  <HelpKINode Title="PrngAlgorithm.Whirlpool_512bit field" Url="html/1754221926.htm" />
   <HelpKINode Title="Read method">
     <HelpKINode Title="Read Method " Url="html/203218759.htm" />
     <HelpKINode Title="Read Method " Url="html/954696351.htm" />
   </HelpKINode>
+  <HelpKINode Title="RIPEMD128_128bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="RIPEMD128_128bit field" Url="html/1672801179.htm" />
+  <HelpKINode Title="RIPEMD160 enumeration member" Url="html/616877201.htm" />
+  <HelpKINode Title="RIPEMD160 field" Url="html/191530965.htm" />
+  <HelpKINode Title="RIPEMD160_160bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="RIPEMD160_160bit field" Url="html/1153763747.htm" />
+  <HelpKINode Title="RIPEMD256_256bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="RIPEMD256_256bit field" Url="html/856493273.htm" />
+  <HelpKINode Title="RIPEMD320_320bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="RIPEMD320_320bit field" Url="html/1820005477.htm" />
   <HelpKINode Title="RNG field" Url="html/201444099.htm" />
   <HelpKINode Title="SeedSize field" Url="html/1591598237.htm" />
   <HelpKINode Title="Seek method">
@@ -99,6 +169,18 @@
     <HelpKINode Title="Seek Method " Url="html/559292602.htm" />
   </HelpKINode>
   <HelpKINode Title="SetLength method" Url="html/903035340.htm" />
+  <HelpKINode Title="SHA1 enumeration member" Url="html/616877201.htm" />
+  <HelpKINode Title="SHA1 field" Url="html/1344544478.htm" />
+  <HelpKINode Title="SHA1_160bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="SHA1_160bit field" Url="html/846053413.htm" />
+  <HelpKINode Title="SHA256 enumeration member" Url="html/616877201.htm" />
+  <HelpKINode Title="SHA256 field" Url="html/400186599.htm" />
+  <HelpKINode Title="SHA256_256bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="SHA256_256bit field" Url="html/2023250415.htm" />
+  <HelpKINode Title="SHA512 enumeration member" Url="html/616877201.htm" />
+  <HelpKINode Title="SHA512 field" Url="html/401223290.htm" />
+  <HelpKINode Title="SHA512_512bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="SHA512_512bit field" Url="html/218745113.htm" />
   <HelpKINode Title="StartEarly class">
     <HelpKINode Title="StartEarly Class" Url="html/1486673411.htm" />
     <HelpKINode Title="StartEarly Members" Url="html/244647306.htm" />
@@ -145,8 +227,16 @@
   <HelpKINode Title="ThreadSchedulerRNG.GetNonZeroBytes method" Url="html/347557294.htm" />
   <HelpKINode Title="ThreadSchedulerRNG.MaxPoolSize property" Url="html/313748418.htm" />
   <HelpKINode Title="ThreadSchedulerRNG.ThreadSchedulerRNG constructor" Url="html/808140476.htm" />
+  <HelpKINode Title="Tiger_192bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="Tiger_192bit field" Url="html/719443254.htm" />
   <HelpKINode Title="tinhat namespace" Url="html/7022855.htm" />
   <HelpKINode Title="tinhat.EntropySources namespace" Url="html/60900893.htm" />
+  <HelpKINode Title="tinhat.EntropySources.EntropyFileRNG class">
+    <HelpKINode Title="EntropyFileRNG Class" Url="html/547406194.htm" />
+    <HelpKINode Title="EntropyFileRNG Members" Url="html/143702427.htm" />
+  </HelpKINode>
+  <HelpKINode Title="tinhat.EntropySources.EntropyFileRNG.MixingAlgorithm enumeration" Url="html/616877201.htm" />
+  <HelpKINode Title="tinhat.EntropySources.EntropyFileRNG.PrngAlgorithm enumeration" Url="html/1323750708.htm" />
   <HelpKINode Title="tinhat.EntropySources.SystemRNGCryptoServiceProvider class">
     <HelpKINode Title="SystemRNGCryptoServiceProvider Class" Url="html/956292012.htm" />
     <HelpKINode Title="SystemRNGCryptoServiceProvider Members" Url="html/446240559.htm" />
@@ -223,6 +313,18 @@
   <HelpKINode Title="UserStringRNG.GetBytes method" Url="html/740250174.htm" />
   <HelpKINode Title="UserStringRNG.GetNonZeroBytes method" Url="html/2107944744.htm" />
   <HelpKINode Title="UserStringRNG.UserStringRNG constructor" Url="html/1903573310.htm" />
+  <HelpKINode Title="Whirlpool_512bit enumeration member" Url="html/1323750708.htm" />
+  <HelpKINode Title="Whirlpool_512bit field" Url="html/1754221926.htm" />
+  <HelpKINode Title="WindowsFormsMouse namespace" Url="html/1943071531.htm" />
+  <HelpKINode Title="WindowsFormsMouse.FormMouseInput class">
+    <HelpKINode Title="FormMouseInput Class" Url="html/1742654571.htm" />
+    <HelpKINode Title="FormMouseInput Members" Url="html/1575428286.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WinFormsKeyboardInputPrompt namespace" Url="html/532483787.htm" />
+  <HelpKINode Title="WinFormsKeyboardInputPrompt.FormKeyboardInputPrompt class">
+    <HelpKINode Title="FormKeyboardInputPrompt Class" Url="html/1887310258.htm" />
+    <HelpKINode Title="FormKeyboardInputPrompt Members" Url="html/291959539.htm" />
+  </HelpKINode>
   <HelpKINode Title="Write method" Url="html/64113841.htm" />
   <HelpKINode Title="Zeroize property" Url="html/1348918421.htm" />
 </HelpKI>

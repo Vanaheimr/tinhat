@@ -58,6 +58,22 @@
                         <img src="../icons/pubclass.gif" alt="Public class" title="Public class" />
                       </td>
                       <td>
+                        <a href="547406194.htm">EntropyFileRNG</a>
+                      </td>
+                      <td>
+                        <div class="summary">
+   It is recommended, at least one time, to prompt user for random keyboard input, mouse input, perhaps poll some
+   internet random sources, and every possible available entropy source, and use it to seed the EntropyFileRNG.
+   The EntropyFileRNG will save this to disk, and upon every time an application is launched that uses EntropyFileRNG,
+   the file will always be reseeded by itself, and will serve PRNG bits
+   </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <img src="../icons/pubclass.gif" alt="Public class" title="Public class" />
+                      </td>
+                      <td>
                         <a href="956292012.htm">SystemRNGCryptoServiceProvider</a>
                       </td>
                       <td>
@@ -96,7 +112,7 @@
                         <div class="summary">
    In a multitasking OS, each individual thread never knows when it's going to be granted execution time,
    as many processes and threads compete for CPU cycles.  The granularity of time to wake up from sleep is
-   something like +/- a few ms, while the granularity of DateTime.Now is Ticks, 10m per second.  Although
+   something like +/- a few ms, while the granularity of DateTime.Now is Ticks, 10million per second.  Although
    the OS scheduler is surely deterministic, there should be a fair amount of entropy in the least significant
    bit of DateTime.Now.Ticks upon thread waking.  But since the OS scheduler is surely deterministic, it is
    not recommended to use ThreadSchedulerRNG as your only entropy source.  It is recommended to use this
@@ -117,10 +133,58 @@
    input, come use UserStringRNG.  It is estimated the user will probably not be randomly mashing their shift key.  The characters
    they enter will probably be confined to a field of about 36 possible chars, but they will enter a lot of patterns and repetition.
    So each keystroke they enter only has a random chance approximately 1/8 or 1/16.  Conservative estimates of good users actually
-   trying to cooperate and enter random characters are about 2 or 3 bits of entropy per character.  Aggressive estimates are about
-   4 or 5 bits of entropy per character.  So it's recommended to collect at least 64 characters from the user,
-   to form a key of 128 bit strength, or 128 characters to form a key of 256 bit strength.  The UserStringRNG class does not
-   provide any additional entropy.  It seeds a prng with the supplied string, and provides random bytes from the prng.
+   trying to cooperate and enter random characters are about 0.5 to 3 bits of entropy per character.  Aggressive estimates are about
+   4 or 5 bits of entropy per character.  It is recommended to assume 1 bit per character.  Need 128 bit key?  Prompt user for 128
+   random characters on the keyboard.  The UserStringRNG class does not provide any additional entropy over time.  It uses the initial
+   seed in a prng, and that's all.
+   </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="LW_CollapsibleArea_Container">
+                  <div class="LW_CollapsibleArea_TitleDiv">
+                    <h2 class="LW_CollapsibleArea_Title">Enumerations</h2>
+                    <div class="LW_CollapsibleArea_HrDiv">
+                      <hr class="LW_CollapsibleArea_Hr" />
+                    </div>
+                  </div>
+                  <a id="enumerationSection">
+                    <!---->
+                  </a>
+                  <table id="typeList" class="members">
+                    <tr>
+                      <th class="iconColumn">
+           
+       </th>
+                      <th class="nameColumn">Enumeration</th>
+                      <th class="descriptionColumn">Description</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <img src="../icons/pubenumeration.gif" alt="Public enumeration" title="Public enumeration" />
+                      </td>
+                      <td>
+                        <a href="616877201.htm">EntropyFileRNG<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>MixingAlgorithm</a>
+                      </td>
+                      <td>
+                        <div class="summary">
+   It is important to mix new seed entropy into the pool, using some sort of mixing algorithm that will neither reduce
+   the entropy in the pool, nor allow a maliciously crafted new seed material to reduce the entropy in the pool. Many
+   possible ways to do this could be used - we just happen to implement the ones listed here.
+   </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <img src="../icons/pubenumeration.gif" alt="Public enumeration" title="Public enumeration" />
+                      </td>
+                      <td>
+                        <a href="1323750708.htm">EntropyFileRNG<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>PrngAlgorithm</a>
+                      </td>
+                      <td>
+                        <div class="summary">
+   The algorithm to be used by the internal PRNG to produce random output from the seed in the seed file
    </div>
                       </td>
                     </tr>
