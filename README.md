@@ -81,41 +81,65 @@ This is an example of the absolute simplest possible usage.  It gets random byte
     
     static void Main(string[] args)
     {
-        StartEarly.StartFillingEntropyPools();  // Start gathering entropy as early as possible
+        /* Please note: On first call, there may be a delay to gather
+         * enough entropy to satisfy the request.  It's recommended to
+         * use StartEarly as early as possible, as seen in Simple Example #2.
+         */
     
+        /* Only use TinHatRandom for keys and other things that don't require
+         * a large number of bytes quickly.  Use TinHatURandom for everything else.
+         * Performance is highly variable.  On my system 
+         * TinHatRandom generated 497Bytes(minimum)/567KB(avg)/1.7MB(max) per second
+         * TinHatURandom generated 2.00MB(minimum)/3.04MB(avg)/3.91MB(max) per second
+         * default constructors use:
+         *     SystemRNGCryptoServiceProvider/SHA256, 
+         *     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,
+         *     (if available) EntropyFileRNG/SHA256
+         * and TinHatURandom by default uses Sha256Digest as the basis 
+         * for DigestRandomGenerator PRNG
+         */
         var randomBytes = new byte[32];
-    
-        // Only use TinHatRandom for keys and other things that don't require
-        // a large number of bytes quickly.  Use TinHatURandom for everything else.
-        // On my system, TinHatRandom generated about 15-60 KiB/sec
-        // default TinHatRandom() constructor uses:
-        //     SystemRNGCryptoServiceProvider/SHA256, 
-        //     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,
-        //     (if available) EntropyFileRNG/SHA256
-        using (var rng = new TinHatRandom())
-        {
-            rng.GetBytes(randomBytes);
-        }
-    
-        // Use TinHatURandom for general cryptographic random purposes.
-        // On my system, TinHatURandom generated about 2-8 MiB/sec
-        // default TinHatURandom() constructor uses the TinHatRandom() default constructor, which uses:
-        //     SystemRNGCryptoServiceProvider/SHA256, 
-        //     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,
-        //     (if available) EntropyFileRNG/SHA256
-        using (var rng = new TinHatURandom())
-        {
-            rng.GetBytes(randomBytes);
-        }
+        TinHatRandom.StaticInstance.GetBytes(randomBytes);
+        // or use TinHatURandom:
+        TinHatURandom.StaticInstance.GetBytes(randomBytes);
     }
+
+### Simple Example #2 ###
+
+It is recommended to use StartEarly as soon as possible in your application, as follows:
+
+    using tinhat;
+    
+    static void Main(string[] args)
+    {
+        StartEarly.StartFillingEntropyPools();  // Start gathering entropy as early as possible
+
+        /* Only use TinHatRandom for keys and other things that don't require
+         * a large number of bytes quickly.  Use TinHatURandom for everything else.
+         * Performance is highly variable.  On my system 
+         * TinHatRandom generated 497Bytes(minimum)/567KB(avg)/1.7MB(max) per second
+         * TinHatURandom generated 2.00MB(minimum)/3.04MB(avg)/3.91MB(max) per second
+         * default constructors use:
+         *     SystemRNGCryptoServiceProvider/SHA256, 
+         *     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,
+         *     (if available) EntropyFileRNG/SHA256
+         * and TinHatURandom by default uses Sha256Digest as the basis 
+         * for DigestRandomGenerator PRNG
+         */
+        var randomBytes = new byte[32];
+        TinHatRandom.StaticInstance.GetBytes(randomBytes);
+        // or use TinHatURandom:
+        TinHatURandom.StaticInstance.GetBytes(randomBytes);
+    }
+
 
 ### Stronger Usage (Recommended) ###
 
-This is a stronger usage.  Most likely, this is the easiest, best, strongest, last word you'll ever need in strong crypto RNG. At least until the world changes, and this stuff gets updated.  ;-)  This is the recommended usage:
+This is a stronger usage model.  Most likely, this is the easiest, best, strongest, last word you'll ever need in strong crypto RNG. At least until the world changes, and this stuff gets updated.  ;-)  This is the recommended usage:
 
 * First, use WinFormsKeyboardInputPrompt (or something like it) (see "Tinhat Random Extras" above).  Collect something like 128 to 512 random characters from the user. Use `Encoding.UTF8.GetBytes(userString)` or anything else, to convert the string to a byte array.
 * Second, use WindowsFormsMouse (or something like it) (again, see "Tinhat Random Extras" above).  Collect something like 16 to 64 bytes from the user, as another byte array.
-* Optionally, collect other entropy sources - from the internet, or other systems, whatever you like, as additional byte arrays.  (For example, see [List of Random Number Servers](http://en.wikipedia.org/wiki/List_of_random_number_generators#Random_Number_Servers))
+* Optionally, collect other entropy sources - from the internet, or other systems, whatever you like, as additional byte arrays.  (For a list of internet random number servers, see [List of Random Number Servers](http://en.wikipedia.org/wiki/List_of_random_number_generators#Random_Number_Servers))
 * It doesn't matter if these seed bytes are dense high quality entropy.  Some non-random bytes mixed in there won't hurt anything, as long as the total entropy is sufficient for your purposes.  So for example, suppose the user was uncooperative and just held down a single key, repeated the letter "j" 256 times, that obviously provides essentially zero entropy from the user keyboard prompt, but as long as they actually moved their mouse around and didn't use a robot to eliminate mouse entropy, or as long as you collected random bytes from the internet  that were truly random and not compromised in any way, then you're going to have a good result as long as you got enough entropy from those other sources.
 
 Collect all those seed bytes into a single byte array. For your convenience, we have provided "ConcatenateByteArrays."  You may use something like this:
@@ -128,12 +152,11 @@ Collect all those seed bytes into a single byte array. For your convenience, we 
 
 And finally, use the big byte array to seed EntropyFileRNG:
 
-    var foo = new tinhat.EntropySources.EntropyFileRNG(seed: allBytes);
-    foo.Dispose();
+    tinhat.EntropySources.EntropyFileRNG.AddSeedMaterial(allBytes);
 
-Now that you've seeded the EntropyFileRNG one time, from now on you can follow the "Absolute Simplest Possible Usage" above.  The mere existence of the EntropyFile will cause the default TinhatRandom constructor to use it.
+Now that you've seeded the EntropyFileRNG once, in the future you can follow either of the "Simple Examples" above.  The mere existence of the EntropyFile will cause TinHatRandom and TinHatURandom to use it.  Your call to AddSeedMaterial() causes the new seed material to become available immediately in the TinHatRandom.StaticInstance and TinHatURandom.StaticInstance.
 
-If you're uncomfortable because you want to always ensure strong entropy is present in EntropyFileRNG, but the syntax of the Absolute Simplest Possible Usage is exactly the same with or without it...  You want to detect any problems with EntropyFileRNG before instantiating TinHatRandom() or TinHatURandom()... All you need to do is instantiate EntropyFileRNG() and catch any exceptions.  If there is any problem with EntropyFileRNG (such as having never been seeded before, or detected corruption or tampering in the seed file), its constructor will throw an exception, and you can then choose to re-instantiate EntropyFileRNG with a seed, or even delete the seed file and re-instantiate with a new seed.
+You may add seed material as often as you like.  The reseed event immediately propagates to all TinHatRandom and TinHatURandom instances, causing them to reseed themselves, so there is a slight CPU penalty, and each reseed takes perhaps 100ms of disk time, but aside from that, reseeding often is probably a good thing.  You can reseed using bytes obtained from TinHatRandom, or using entropy that you gather from any other source.
 
 ### Advanced Usage ###
 

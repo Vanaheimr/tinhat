@@ -1,0 +1,12 @@
+ver 1.1.2 : 2014-07-06
+	Added StaticInstance to TinHatURandom
+	Fixed a thread race bug in TinHatURandom that sometimes caused unhandled exception
+
+ver 1.1.1 : 2014-07-05
+	Added StaticInstance to TinHatRandom
+
+ver 1.1.0 : 2014-07-04
+	Added WinFormsKeyboardInputPrompt, WinFormsMouse, and EntropyFileRNG
+
+ver 1.0.0 : 2014-06-13
+	First working rev, including TinHatRandom, TinHatURandom, SystemRNG, ThreadedSeedGenerator

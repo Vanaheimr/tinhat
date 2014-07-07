@@ -46,8 +46,8 @@
                 <div class="summary">
    TinHatURandom returns cryptographically strong random data.  It uses a crypto prng to generate more bytes than
    actually available in hardware entropy, so it's about 1,000 times faster than TinHatRandom.  For general purposes,
-   TinHatURandom is recommended because of its performance characteristics, but for extremely strong, long-lived keys,
-   TinHatRandom is recommended instead.
+   TinHatURandom is recommended because of its performance characteristics, but for extremely strong keys and other
+   things that don't require a large number of bytes quickly, TinHatRandom is recommended instead.
    </div>
                 <p />
     <b>Namespace:</b> 
@@ -57,24 +57,22 @@
 	<span class="keyword">Inherits</span> <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.randomnumbergenerator.aspx" target="_blank">System.Security.Cryptography.RandomNumberGenerator</a></pre></div><div class="CodeSnippetContainerCode ManagedCPlusPlusCode"><pre xml:space="preserve" class="libCScode"><span class="keyword">public</span> <span class="keyword">ref class</span> <span class="identifier">TinHatURandom</span> <span class="keyword">sealed</span> : <span class="keyword">public</span> <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.randomnumbergenerator.aspx" target="_blank">System.Security.Cryptography.RandomNumberGenerator</a></pre></div></div></div></div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">Remarks</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="remarksSection"><!----></a>
    TinHatURandom returns cryptographically strong random data.  It uses a crypto prng to generate more bytes than
    actually available in hardware entropy, so it's about 1,000 times faster than TinHatRandom.  For general purposes,
-   TinHatURandom is recommended because of its performance characteristics, but for extremely strong, long-lived keys,
-   TinHatRandom is recommended instead.
-   </div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">Examples</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="exampleSection"><!----></a><span id="cbc_1" x-lang="CSharp" codeLanguage="CSharp"><div class="highlight-title"><span class="highlight-copycode" tabindex="0"></span>C#</div><div class="code"><pre xml:space="preserve"><span class="highlight-keyword">static</span> <span class="highlight-keyword">void</span> Main(<span class="highlight-keyword">string</span>[] args)
+   TinHatURandom is recommended because of its performance characteristics, but for extremely strong keys and other
+   things that don't require a large number of bytes quickly, TinHatRandom is recommended instead.
+   </div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">Examples</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="exampleSection"><!----></a><span id="cbc_1" x-lang="CSharp" codeLanguage="CSharp"><div class="highlight-title"><span class="highlight-copycode" tabindex="0"></span>C#</div><div class="code"><pre xml:space="preserve"><span class="highlight-keyword">using</span> tinhat;
+
+<span class="highlight-keyword">static</span> <span class="highlight-keyword">void</span> Main(<span class="highlight-keyword">string</span>[] args)
 {
-    StartEarly.StartFillingEntropyPools();
+    StartEarly.StartFillingEntropyPools();  <span class="highlight-comment">// Start gathering entropy as early as possible</span>
 
-    <span class="highlight-keyword">const</span> <span class="highlight-keyword">int</span> blockSize = <span class="highlight-number">640</span>;
+    <span class="highlight-keyword">var</span> randomBytes = <span class="highlight-keyword">new</span> <span class="highlight-keyword">byte</span>[<span class="highlight-number">32</span>];
 
-    <span class="highlight-comment">// On my system, this generated about 2-6 MiB/sec</span>
-    <span class="highlight-comment">// default constructor uses SystemRNGCryptoServiceProvider/SHA256, ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest</span>
-    <span class="highlight-keyword">using</span> (<span class="highlight-keyword">var</span> rng = <span class="highlight-keyword">new</span> TinHatURandom())
-    {
-        <span class="highlight-keyword">for</span> (<span class="highlight-keyword">int</span> i = <span class="highlight-number">0</span>; i &lt; <span class="highlight-number">32000</span>; i++)
-        {
-            <span class="highlight-keyword">var</span> randomBytes = <span class="highlight-keyword">new</span> <span class="highlight-keyword">byte</span>[blockSize];
-            rng.GetBytes(randomBytes);
-        }
-    }
+    <span class="highlight-comment">// Performance is highly variable.  On my system, it generated 2.00MB(minimum)/3.04MB(avg)/3.91MB(max) per second</span>
+    <span class="highlight-comment">// default TinHatURandom() constructor uses the TinHatRandom() default constructor, which uses:</span>
+    <span class="highlight-comment">//     SystemRNGCryptoServiceProvider/SHA256,</span>
+    <span class="highlight-comment">//     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,</span>
+    <span class="highlight-comment">//     (if available) EntropyFileRNG/SHA256</span>
+    TinHatURandom.StaticInstance.GetBytes(randomBytes);
 }</pre></div></span></div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">Inheritance Hierarchy</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="familySection"><!----></a><a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">System.Object</a><br />  <a href="http://msdn.microsoft.com/en-us/library/system.security.cryptography.randomnumbergenerator.aspx" target="_blank">System.Security.Cryptography.RandomNumberGenerator</a><br />    <span class="selflink">tinhat<span class="languageSpecificText"><span class="cs">.</span><span class="vb">.</span><span class="cpp">::</span><span class="nu">.</span><span class="fs">.</span></span>TinHatURandom</span><br /></div><div class="LW_CollapsibleArea_Container"><div class="LW_CollapsibleArea_TitleDiv"><h2 class="LW_CollapsibleArea_Title">See Also</h2><div class="LW_CollapsibleArea_HrDiv"><hr class="LW_CollapsibleArea_Hr" /></div></div><a id="seeAlsoSection"><!----></a><div class="seeAlsoStyle"><a href="1519808138.htm">TinHatURandom Members</a></div><div class="seeAlsoStyle"><a href="7022855.htm">tinhat Namespace</a></div></div></div>
             </div>
           </div>
