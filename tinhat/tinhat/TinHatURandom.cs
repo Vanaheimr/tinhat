@@ -23,25 +23,20 @@ namespace tinhat
     /// things that don't require a large number of bytes quickly, TinHatRandom is recommended instead.
     /// </remarks>
     /// <example><code>
+    /// using tinhat;
+    /// 
     /// static void Main(string[] args)
     /// {
-    ///     StartEarly.StartFillingEntropyPools();
+    ///     StartEarly.StartFillingEntropyPools();  // Start gathering entropy as early as possible
     /// 
-    ///     const int blockSize = 640;
+    ///     var randomBytes = new byte[32];
     ///
-    ///     // On my system, this generated about 2-6 MiB/sec
+    ///     // Performance is highly variable.  On my system, it generated 2.00MB(minimum)/3.04MB(avg)/3.91MB(max) per second
     ///     // default TinHatURandom() constructor uses the TinHatRandom() default constructor, which uses:
     ///     //     SystemRNGCryptoServiceProvider/SHA256, 
     ///     //     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,
     ///     //     (if available) EntropyFileRNG/SHA256
-    ///     using (var rng = new TinHatURandom())
-    ///     {
-    ///         for (int i = 0; i &lt; 32000; i++)
-    ///         {
-    ///             var randomBytes = new byte[blockSize];
-    ///             rng.GetBytes(randomBytes);
-    ///         }
-    ///     }
+    ///     TinHatURandom.StaticInstance.GetBytes(randomBytes);
     /// }
     /// </code></example>
     public sealed class TinHatURandom : RandomNumberGenerator
@@ -51,8 +46,13 @@ namespace tinhat
         private const int FalseInt = 0;
         private int disposed = FalseInt;
 
+        private static TinHatURandom _StaticInstance = new TinHatURandom(TinHatRandom.StaticInstance);
+        public static TinHatURandom StaticInstance { get { return _StaticInstance; } }
+        private EventHandler TinHatRandom_EntropyIncreased_Handler;
+
         private DigestRandomGenerator myPrng;
         private TinHatRandom myTinHatRandom;
+        private bool myTinHatRandom_IsMineExclusively;
         private object stateCounterLockObj = new object();
         private const int RESEED_LOCKED = 1;
         private const int RESEED_UNLOCKED = 0;
@@ -114,26 +114,63 @@ namespace tinhat
         public TinHatURandom()
         {
             this.myTinHatRandom = new TinHatRandom();
+            this.myTinHatRandom_IsMineExclusively = true;
             IDigest digest = new Sha256Digest();
             this.myPrng = new DigestRandomGenerator(digest);
             this.digestSize = digest.GetDigestSize();
             this.SeedSize = this.digestSize;
+            this.TinHatRandom_EntropyIncreased_Handler = new EventHandler(myTinHatRandom_EntropyIncreased);
+            this.myTinHatRandom.EntropyIncreased += this.TinHatRandom_EntropyIncreased_Handler;
             Reseed();
         }
         public TinHatURandom(IDigest digest)
         {
             this.myTinHatRandom = new TinHatRandom();
+            this.myTinHatRandom_IsMineExclusively = true;
             this.myPrng = new DigestRandomGenerator(digest);
             this.digestSize = digest.GetDigestSize();
             this.SeedSize = this.digestSize;
+            this.TinHatRandom_EntropyIncreased_Handler = new EventHandler(myTinHatRandom_EntropyIncreased);
+            this.myTinHatRandom.EntropyIncreased += this.TinHatRandom_EntropyIncreased_Handler;
             Reseed();
         }
         public TinHatURandom(List<SupportingClasses.EntropyHasher> EntropyHashers, IDigest digest)
         {
             this.myTinHatRandom = new TinHatRandom(EntropyHashers);
+            this.myTinHatRandom_IsMineExclusively = true;
             this.myPrng = new DigestRandomGenerator(digest);
             this.digestSize = digest.GetDigestSize();
             this.SeedSize = this.digestSize;
+            this.TinHatRandom_EntropyIncreased_Handler = new EventHandler(myTinHatRandom_EntropyIncreased);
+            this.myTinHatRandom.EntropyIncreased += this.TinHatRandom_EntropyIncreased_Handler;
+            Reseed();
+        }
+        public TinHatURandom(TinHatRandom myTinHatRandom)
+        {
+            this.myTinHatRandom = myTinHatRandom;
+            this.myTinHatRandom_IsMineExclusively = false;
+            IDigest digest = new Sha256Digest();
+            this.myPrng = new DigestRandomGenerator(digest);
+            this.digestSize = digest.GetDigestSize();
+            this.SeedSize = this.digestSize;
+            this.TinHatRandom_EntropyIncreased_Handler = new EventHandler(myTinHatRandom_EntropyIncreased);
+            this.myTinHatRandom.EntropyIncreased += this.TinHatRandom_EntropyIncreased_Handler;
+            Reseed();
+        }
+        public TinHatURandom(TinHatRandom myTinHatRandom, IDigest digest)
+        {
+            this.myTinHatRandom = myTinHatRandom;
+            this.myTinHatRandom_IsMineExclusively = false;
+            this.myPrng = new DigestRandomGenerator(digest);
+            this.digestSize = digest.GetDigestSize();
+            this.SeedSize = this.digestSize;
+            this.TinHatRandom_EntropyIncreased_Handler = new EventHandler(myTinHatRandom_EntropyIncreased);
+            this.myTinHatRandom.EntropyIncreased += this.TinHatRandom_EntropyIncreased_Handler;
+            Reseed();
+        }
+
+        void myTinHatRandom_EntropyIncreased(object sender, EventArgs e)
+        {
             Reseed();
         }
 
@@ -201,13 +238,31 @@ namespace tinhat
         }
         private void Reseed()
         {
-            var newSeed = new byte[SeedSize];
-            myTinHatRandom.GetBytes(newSeed);
-            lock (stateCounterLockObj)
+            // If we were already disposed, it's nice to skip any attempt at GetBytes, etc.
+            if (disposed == TrueInt)
             {
-                myPrng.AddSeedMaterial(newSeed);
-                this.stateCounter = 0;
-                reseedLockInt = RESEED_UNLOCKED;
+                return;
+            }
+            // Even though we just checked to see if we're disposed, somebody could call Dispose() while I'm in the middle
+            // of the following code block.
+            try
+            {
+                var newSeed = new byte[SeedSize];
+                myTinHatRandom.GetBytes(newSeed);
+                lock (stateCounterLockObj)
+                {
+                    myPrng.AddSeedMaterial(newSeed);
+                    this.stateCounter = 0;
+                    reseedLockInt = RESEED_UNLOCKED;
+                }
+            }
+            catch
+            {
+                // If we threw any kind of exception after we were disposed, then just swallow it and go away quietly
+                if (disposed == FalseInt)
+                {
+                    throw;
+                }
             }
         }
         protected override void Dispose(bool disposing)
@@ -216,7 +271,17 @@ namespace tinhat
             {
                 return;
             }
-            myTinHatRandom.Dispose();
+            if (myTinHatRandom_IsMineExclusively)
+            {
+                // If myTinHatRandom is a private instance that I created, I no longer need it, and we can get rid of it.
+                myTinHatRandom.Dispose();
+            }
+            else
+            {
+                // If myTinHatRandom was given to me by user in constructor (for example, if I'm the TinHatURandom.StaticInstance)
+                // then I don't want to dispose of it, as somebody else might be referencing it.  I just want to unsubscribe from its events.
+                this.myTinHatRandom.EntropyIncreased -= this.TinHatRandom_EntropyIncreased_Handler;
+            }
             base.Dispose(disposing);
         }
         ~TinHatURandom()

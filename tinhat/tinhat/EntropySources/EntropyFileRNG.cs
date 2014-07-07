@@ -19,12 +19,30 @@ namespace tinhat.EntropySources
     /// </summary>
     public sealed class EntropyFileRNG : RandomNumberGenerator
     {
-        static byte[] HardCodedOptionalEntropy = new byte[] { 0x8A, 0x5E, 0x89, 0x1E, 0x56, 0x6C, 0x66, 0xFA, 0x6F, 0x62, 0x4A, 0x3B, 0x9E, 0x33, 0xC4, 0x12, 0x28, 0x92, 0x2F, 0x08, 0x9C, 0x51, 0x1F, 0x5B, 0x85, 0x86, 0x1A, 0x68, 0xEF, 0x43, 0x02 };
+        private static byte[] HardCodedOptionalEntropy = new byte[] { 0x8A, 0x5E, 0x89, 0x1E, 0x56, 0x6C, 0x66, 0xFA, 0x6F, 0x62, 0x4A, 0x3B, 0x9E, 0x33, 0xC4, 0x12, 0x28, 0x92, 0x2F, 0x08, 0x9C, 0x51, 0x1F, 0x5B, 0x85, 0x86, 0x1A, 0x68, 0xEF, 0x43, 0x02 };
+
+        /// <summary>
+        /// When any instance of EntropyFileRNG adds seed material to the pool, it raises this event to signal all instances of EntropyFileRNG
+        /// to reseed themselves.  Those instances may, in turn, raise their public Reseeded events.
+        /// </summary>
+        private static event EventHandler Reseeded_Private;
+
+        /// <summary>
+        /// Mainly intended for TinHat internal use.  Whenever user adds seed material, notify all TinHatRandom instances that didn't
+        /// previously have an instance of EntropyFileRNG
+        /// </summary>
+        public static event EventHandler BecameAvailable;
+
+        /// <summary>
+        /// Mainly intended for TinHat internal use.  Whenever user adds seed material, all EntropyFileRNG instances will reseed themselves,
+        /// and this needs to be caught by TinHatRandom so they can raise EntropyIncreased, so TinHatURandom will then reseed itself.
+        /// </summary>
+        public event EventHandler Reseeded;
 
         /// <summary>
         /// 32
         /// </summary>
-        const int HmacSha256Length = 32;
+        private const int HmacSha256Length = 32;
 
         /// <summary>
         /// The algorithm to be used by the internal PRNG to produce random output from the seed in the seed file
@@ -57,6 +75,15 @@ namespace tinhat.EntropySources
             SHA512 = 5
         }
 
+        // Interlocked cannot handle bools.  So using int as if it were bool.
+        private const int TrueInt = 1;
+        private const int FalseInt = 0;
+        private int disposed = FalseInt;
+
+        private MixingAlgorithm myMixingAlgorithm;
+        private PrngAlgorithm myRNGAlgorithm;
+        private DigestRandomGenerator myRNG;
+
         /* Why is PoolSize hard-coded to 3072 bytes?
          * Realistically speaking, anything in the range of 16 to 32 good quality random bytes is perfect.  Far beyond any estimates of 
          * present and future crypto cracking techniques.  But computers we use nowadays store data in blocks of 512b, 4k, or 8k 
@@ -68,22 +95,16 @@ namespace tinhat.EntropySources
          * One thing is absolutely undeniably clear:  If you have anywhere near 32 bytes, or 3072 bytes of entropy in your pool, your
          * cryptographic weak point will *not* be the quantity of entropy bytes you have.  Beware the $5 wrench.  http://xkcd.com/538/
          */
-        private HashAlgorithm myHashAlgorithm;
-        private byte[] pool;
-        private int poolPosition;
-
-        // Interlocked cannot handle bools.  So using int as if it were bool.
-        private const int TrueInt = 1;
-        private const int FalseInt = 0;
-        private int disposed = FalseInt;
-
-        private DigestRandomGenerator myRNG;
-
         /// <summary>
         /// 3072
         /// </summary>
-        const int PoolSize = 3072;
+        private const int PoolSize = 3072;
 
+        private EventHandler EntropyFileRNG_Reseeded_Handler;
+
+        /// <summary>
+        /// Returns a single byte array containing all the bytes of all the provided arrays
+        /// </summary>
         public static byte[] ConcatenateByteArrays(IEnumerable<byte[]> byteArrays)
         {
             int totalSize = 0;
@@ -105,134 +126,201 @@ namespace tinhat.EntropySources
         }
 
         /// <summary>
-        /// The first time you ever instantiate EntropyFileRNG, you *must* provide a seed.  Otherwise, CryptographicException
+        /// The first time you ever instantiate EntropyFileRNG, you *must* provide a newSeed.  Otherwise, CryptographicException
         /// will be thrown.  You better ensure it's at least 128 bits (16 bytes), preferably much more (>=32 bytes).  Any subsequent
         /// time you instantiate EntropyFileRNG, you may use the parameter-less constructor, and it will leverage the original seed.
         /// Whenever you provide more seed bytes, entropy is always increased.  (Does not lose previous entropy bytes.)
+        /// NOTICE: byte[] newSeed will be zero'd out before returning, for security reasons.
         /// </summary>
-        public EntropyFileRNG(byte[] seed = null, MixingAlgorithm mixingAlgorithm = MixingAlgorithm.SHA256, PrngAlgorithm prngAlgorithm = PrngAlgorithm.SHA512_512bit)
+        public EntropyFileRNG(byte[] newSeed = null, MixingAlgorithm mixingAlgorithm = MixingAlgorithm.SHA256, PrngAlgorithm prngAlgorithm = PrngAlgorithm.SHA512_512bit)
         {
-            if (seed != null && seed.Length < 8)
+            this.myMixingAlgorithm = mixingAlgorithm;
+            this.myRNGAlgorithm = prngAlgorithm;
+
+            byte[] pool;
+            Initialize(out pool, this.myMixingAlgorithm, newSeed);    // Clears the newSeed before returning
+            this.EntropyFileRNG_Reseeded_Handler = new EventHandler(EntropyFileRNG_Reseeded);
+            EntropyFileRNG.Reseeded_Private += this.EntropyFileRNG_Reseeded_Handler;
+
+            CreateNewPRNG(pool);    // Clears pool contents before returning
+        }
+
+        /// <summary>
+        /// Note:  Clears pool contents before returning
+        /// </summary>
+        private void CreateNewPRNG(byte[] pool)
+        {
+            if (pool == null)
             {
-                throw new CryptographicException("Length >= 16 would be normal.  Length 8 is lame.  Length < 8 is insane.");
+                throw new CryptographicException("Refusing to reseed with null pool");
             }
-            CreateMyHashAlgorithm(mixingAlgorithm);
             try
             {
-                // On my core-i5 system, using all defaults (sha256, 3072byte pool) the following takes about 10ms to 80ms
-                Initialize(seed);
+                if (pool.Length != PoolSize)
+                {
+                    throw new CryptographicException("Refusing to reseed with invalid pool");
+                }
+                // Now, pool has been seeded, file operations are all completed, it's time to create my internal PRNG
+                IDigest digest;
+                switch (this.myRNGAlgorithm)
+                {
+                    case PrngAlgorithm.MD5_128bit:
+                        digest = new MD5Digest();
+                        break;
+                    case PrngAlgorithm.RIPEMD128_128bit:
+                        digest = new RipeMD128Digest();
+                        break;
+                    case PrngAlgorithm.RIPEMD160_160bit:
+                        digest = new RipeMD160Digest();
+                        break;
+                    case PrngAlgorithm.RIPEMD256_256bit:
+                        digest = new RipeMD256Digest();
+                        break;
+                    case PrngAlgorithm.RIPEMD320_320bit:
+                        digest = new RipeMD320Digest();
+                        break;
+                    case PrngAlgorithm.SHA1_160bit:
+                        digest = new Sha1Digest();
+                        break;
+                    case PrngAlgorithm.SHA256_256bit:
+                        digest = new Sha256Digest();
+                        break;
+                    case PrngAlgorithm.SHA512_512bit:
+                        digest = new Sha512Digest();
+                        break;
+                    case PrngAlgorithm.Tiger_192bit:
+                        digest = new TigerDigest();
+                        break;
+                    case PrngAlgorithm.Whirlpool_512bit:
+                        digest = new WhirlpoolDigest();
+                        break;
+                    default:
+                        throw new CryptographicException("Unknown prngAlgorithm specified: " + this.myRNGAlgorithm.ToString());
+                }
+                var drng = new DigestRandomGenerator(digest);
+                drng.AddSeedMaterial(pool);
+                this.myRNG = drng;
             }
             finally
             {
-                myHashAlgorithm.Dispose();
-                myHashAlgorithm = null;
+                Array.Clear(pool, 0, pool.Length);
             }
-
-            // Now, pool has been seeded, file operations are all completed, it's time to create my internal PRNG
-            IDigest digest;
-            switch (prngAlgorithm)
-            {
-                case PrngAlgorithm.MD5_128bit:
-                    digest = new MD5Digest();
-                    break;
-                case PrngAlgorithm.RIPEMD128_128bit:
-                    digest = new RipeMD128Digest();
-                    break;
-                case PrngAlgorithm.RIPEMD160_160bit:
-                    digest = new RipeMD160Digest();
-                    break;
-                case PrngAlgorithm.RIPEMD256_256bit:
-                    digest = new RipeMD256Digest();
-                    break;
-                case PrngAlgorithm.RIPEMD320_320bit:
-                    digest = new RipeMD320Digest();
-                    break;
-                case PrngAlgorithm.SHA1_160bit:
-                    digest = new Sha1Digest();
-                    break;
-                case PrngAlgorithm.SHA256_256bit:
-                    digest = new Sha256Digest();
-                    break;
-                case PrngAlgorithm.SHA512_512bit:
-                    digest = new Sha512Digest();
-                    break;
-                case PrngAlgorithm.Tiger_192bit:
-                    digest = new TigerDigest();
-                    break;
-                case PrngAlgorithm.Whirlpool_512bit:
-                    digest = new WhirlpoolDigest();
-                    break;
-                default:
-                    throw new CryptographicException("Unknown prngAlgorithm specified: " + prngAlgorithm.ToString());
-            }
-            this.myRNG = new DigestRandomGenerator(digest);
-            this.myRNG.AddSeedMaterial(seed);
-            Array.Clear(seed, 0, seed.Length);
-            seed = null;
         }
 
-        private void CreateMyHashAlgorithm (MixingAlgorithm algorithm)
+        private void EntropyFileRNG_Reseeded(object sender, EventArgs e)
+        {
+            byte[] pool;
+            Initialize(out pool, this.myMixingAlgorithm);    // Clears the newSeed before returning
+            CreateNewPRNG(pool);    // Clears pool contents before returning
+            if (this.Reseeded != null)
+            {
+                this.Reseeded(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// NOTICE: byte[] newSeed will be zero'd out before returning, for security reasons.
+        /// </summary>
+        public static void AddSeedMaterial(byte[] newSeed, MixingAlgorithm mixingAlgorithm = MixingAlgorithm.SHA256)
+        {
+            byte[] pool;
+            Initialize(out pool, mixingAlgorithm, newSeed);    // Clears the newSeed before returning
+            Array.Clear(pool, 0, pool.Length);
+        }
+
+        private static HashAlgorithm CreateMyHashAlgorithm(MixingAlgorithm algorithm)
         {
             switch (algorithm)
             {
                 case MixingAlgorithm.MD5:
-                    myHashAlgorithm = MD5.Create();
-                    break;
+                    return MD5.Create();
                 case MixingAlgorithm.RIPEMD160:
-                    myHashAlgorithm = RIPEMD160.Create();
-                    break;
+                    return RIPEMD160.Create();
                 case MixingAlgorithm.SHA1:
-                    myHashAlgorithm = SHA1.Create();
-                    break;
+                    return SHA1.Create();
                 case MixingAlgorithm.SHA256:
-                    myHashAlgorithm = SHA256.Create();
-                    break;
+                    return SHA256.Create();
                 case MixingAlgorithm.SHA512:
-                    myHashAlgorithm = SHA512.Create();
-                    break;
+                    return SHA512.Create();
                 default:
                     throw new ArgumentException("Unsupported algorithm");
             }
         }
 
         /// <summary>
-        /// Opens randfile (or creates randfile, if seed provided and randfile nonexistent), reads in pool data, 
-        /// plants seed (if provided), modifies and writes out randfile.
+        /// Opens randfile (or creates randfile, if newSeed provided and randfile nonexistent), reads in pool data, 
+        /// plants newSeed (if provided), modifies and writes out randfile.
+        /// NOTICE: zero's the contents of newSeed before returning.
         /// </summary>
-        private void Initialize(byte[] seed = null)
+        private static void Initialize(out byte[] pool, MixingAlgorithm mixingAlgorithm, byte[] newSeed = null)
         {
-            FileStream randFileStream;
-            if (seed == null)
+            if (newSeed != null && newSeed.Length < 8)
             {
-                // If seed is not provided, we require that the file pre-exists
-                randFileStream = OpenRandFile(FileMode.Open);
+                throw new CryptographicException("Length >= 16 would be normal.  Length 8 is lame.  Length < 8 is insane.");
             }
-            else
+            HashAlgorithm myHashAlgorithm = CreateMyHashAlgorithm(mixingAlgorithm);
+            try
             {
-                // If seed is provided, we don't require the file pre-exists
-                randFileStream = OpenRandFile(FileMode.OpenOrCreate);
+                FileStream randFileStream = OpenRandFile();
+                try
+                {
+                    pool = new byte[PoolSize];
+                    int poolPosition = 0;
+                    if (randFileStream.Length == 0)
+                    {
+                        if (newSeed == null)
+                        {
+                            // Since newSeed is null, we require randFile contents.  But it's zero.  Fail.
+                            throw new CryptographicException("randFile nonexistent or zero-length, and newSeed not provided. randFile must be seeded before use.");
+                        }
+                        else
+                        {
+                            // WriteRandFileContents will plant newSeed
+                            WriteRandFileContents(randFileStream, newSeed, myHashAlgorithm, pool, ref poolPosition);
+                        }
+                    }
+                    else
+                    {
+                        // If the file already has data in it, then we read both "pool" and "poolPosition" from it.
+                        ReadRandFileContents(randFileStream, ref poolPosition, pool);
+                        // WriteRandFileContents will plant newSeed, if one was provided
+                        WriteRandFileContents(randFileStream, newSeed, myHashAlgorithm, pool, ref poolPosition);
+                    }
+                }
+                finally
+                {
+                    randFileStream.Flush();
+                    randFileStream.Close();
+                }
+                if (newSeed != null)
+                {
+                    if (EntropyFileRNG.Reseeded_Private != null)
+                    {
+                        EntropyFileRNG.Reseeded_Private(null, null);
+                    }
+                    if (EntropyFileRNG.BecameAvailable != null)
+                    {
+                        EntropyFileRNG.BecameAvailable(null, null);
+                    }
+                }
             }
-            this.pool = new byte[PoolSize];
-            if (randFileStream.Length == 0)
+            finally
             {
-                // If the file has no data in it, then we keep the all-zero "pool", and set the "poolPosition" to 0
-                this.poolPosition = 0;
+                myHashAlgorithm.Dispose();
+                if (newSeed != null)
+                {
+                    Array.Clear(newSeed, 0, newSeed.Length);
+                }
             }
-            else
-            {
-                // If the file already has data in it, then we read both "pool" and "poolPosition" from it.
-                ReadRandFileContents(randFileStream);
-            }
-            if (seed != null)
-            {
-                PlantSeed(seed);
-            }
-            WriteRandFileContents(randFileStream);
         }
-        private void WriteRandFileContents(FileStream randFileStream)
+        private static void WriteRandFileContents(FileStream randFileStream, byte[] newSeed, HashAlgorithm myHashAlgorithm, byte[] pool, ref int poolPosition)
         {
-            randFileStream.Position = 0;
-            randFileStream.SetLength(0);
+            if (newSeed != null)
+            {
+                PlantSeed(newSeed, myHashAlgorithm, ref poolPosition, pool);
+            }
+            randFileStream.Position = 0;    // Truncate file
+            randFileStream.SetLength(0);    // Truncate file
 
             // Concatenate the positionBytes and pool into "rawData" but leave enough room for HMACSHA256 at the end
             byte[] rawData = new byte[sizeof(Int32) + PoolSize + HmacSha256Length];
@@ -275,11 +363,8 @@ namespace tinhat.EntropySources
             Array.Clear(rawData, 0, rawData.Length);
             randFileStream.Write(rawDataProtected, 0, rawDataProtected.Length);
             Array.Clear(rawDataProtected, 0, rawDataProtected.Length);
-
-            randFileStream.Flush();
-            randFileStream.Close();
         }
-        private void ReadRandFileContents(FileStream randFileStream)
+        private static void ReadRandFileContents(FileStream randFileStream, ref int poolPosition, byte[] pool)
         {
             /* rawData is encoded as follows:
              * bytes 0-3:       4bytes, BigEndian int, poolPosition
@@ -328,23 +413,16 @@ namespace tinhat.EntropySources
             }
         }
 
-        private FileStream OpenRandFile(FileMode openMode)
+        private static FileStream OpenRandFile()
         {
-            if (openMode != FileMode.Open && openMode != FileMode.OpenOrCreate)
-                throw new ArgumentException("openMode must be Open, or OpenOrCreate");
-
             string fileName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/tinhat.rnd";
             const int maxTries = 10000;  // Fail this many times, throw exception.
             int numTries = 0;
             while (true)
             {
-                if (openMode == FileMode.Open && (false == File.Exists(fileName)))
-                {
-                    throw new CryptographicException("EntropyFileRNG rand file does not exist");
-                }
                 try
                 {
-                    return new FileStream(fileName, openMode, FileAccess.ReadWrite, FileShare.None);
+                    return new FileStream(fileName, FileMode.OpenOrCreate , FileAccess.ReadWrite, FileShare.None);
                 }
                 catch
                 {
@@ -363,9 +441,9 @@ namespace tinhat.EntropySources
         }
 
         /// <summary>
-        /// Mixes seed into pool, without reducing entropy in the pool.  Attempt to maximize entropy gained in the pool
+        /// Mixes newSeed into pool, without reducing entropy in the pool.  Attempt to maximize entropy gained in the pool
         /// </summary>
-        private void PlantSeed(byte[] seed)
+        private static void PlantSeed(byte[] newSeed, HashAlgorithm myHashAlgorithm, ref int poolPosition, byte[] pool)
         {
             /* Let's suppose one time, the user provides 16 bytes of absolute pure uncut randomness.  The kind your grandma used to make
              * by rolling dice in the casino and tumbling numbered balls in the bingo machine and strolling around taking measurements with
@@ -379,33 +457,33 @@ namespace tinhat.EntropySources
              * them, but over time, we won't know which bytes in the pool have nearly a byte of entropy in them, versus which ones have nearly
              * 0 bytes of entropy.
              * 
-             * So we will keep track.  Every time user provides a seed, we'll mix it into the pool and also keep track of the position where
-             * we left off.  Each time a seed is provided, we are not reducing the entropy in the pool, but we are also attempting to maximize
-             * the amount of gain that we get from each provided seed byte.
+             * So we will keep track.  Every time user provides a newSeed, we'll mix it into the pool and also keep track of the position where
+             * we left off.  Each time a newSeed is provided, we are not reducing the entropy in the pool, but we are also attempting to maximize
+             * the amount of gain that we get from each provided newSeed byte.
              * 
              * Hence, we need to keep track of poolPosition
              * 
              * Our mixing operation is very straightforward.  The core priciple of tinhat revolves around hashing A, hashing B, and if they're
              * not equal, then mix them together to produce an output which is at least as random as the minimum randomness of either A or B.
-             * So below, we will hash the seed, hash the pool, and if they're not equal, then mix them together and update the pool.  Please
-             * note:  We are doing this blockwise.  *Not* hashing the entire seed or the entire pool at once, but instead, take a block of the
-             * seed, a block of the pool, hash and mix, where the blocksize is equal to the hash size.  This way, we preserve as much entropy
-             * as possible from both the seed and the pool.
+             * So below, we will hash the newSeed, hash the pool, and if they're not equal, then mix them together and update the pool.  Please
+             * note:  We are doing this blockwise.  *Not* hashing the entire newSeed or the entire pool at once, but instead, take a block of the
+             * newSeed, a block of the pool, hash and mix, where the blocksize is equal to the hash size.  This way, we preserve as much entropy
+             * as possible from both the newSeed and the pool.
              */
             int myAlgorithmSize = myHashAlgorithm.HashSize / 8; // HashSize is measured in bits.  I want bytes.
             int seedPosition = 0;
-            while (seedPosition < seed.Length)
+            while (seedPosition < newSeed.Length)
             {
                 int byteCount;
-                if (seedPosition + myAlgorithmSize <= seed.Length)
+                if (seedPosition + myAlgorithmSize <= newSeed.Length)
                 {
                     byteCount = myAlgorithmSize;
                 }
                 else
                 {
-                    byteCount = seed.Length - seedPosition;
+                    byteCount = newSeed.Length - seedPosition;
                 }
-                // Check to see if the blocks are identical.  If they are, then don't use that chunk of the seed.
+                // Check to see if the blocks are identical.  If they are, then don't use that chunk of the newSeed.
                 // This should realistically never happen, so the loop below is biased toward detecting non-identical
                 // and then immediately breaking.  But for cryptographic integrity, we are obligated to check for
                 // identicality.
@@ -414,7 +492,7 @@ namespace tinhat.EntropySources
                     int localPoolPosition = poolPosition;
                     for (int localSeedPosition = seedPosition; localSeedPosition < seedPosition + byteCount; localSeedPosition++)
                     {
-                        if (seed[localSeedPosition] != pool[localPoolPosition])
+                        if (newSeed[localSeedPosition] != pool[localPoolPosition])
                         {
                             identical = false;
                             break;
@@ -430,8 +508,8 @@ namespace tinhat.EntropySources
                 }
                 else
                 {
-                    // Hash a block from the seed
-                    byte[] seedHash = myHashAlgorithm.ComputeHash(seed, seedPosition, byteCount);
+                    // Hash a block from the newSeed
+                    byte[] seedHash = myHashAlgorithm.ComputeHash(newSeed, seedPosition, byteCount);
                     seedPosition += byteCount;
                     // Hash a block from the pool
                     byte[] poolHash = myHashAlgorithm.ComputeHash(pool, poolPosition, byteCount);
@@ -473,12 +551,7 @@ namespace tinhat.EntropySources
             {
                 return;
             }
-            try
-            {
-                if (myHashAlgorithm != null)
-                    myHashAlgorithm.Dispose();
-            }
-            catch { }
+            EntropyFileRNG.Reseeded_Private -= this.EntropyFileRNG_Reseeded_Handler;
             base.Dispose(disposing);
         }
         ~EntropyFileRNG()

@@ -4,45 +4,56 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto.Digests;
+using System.Threading;
 
 namespace tinhat
 {
     /// <summary>
     /// TinHatRandom returns cryptographically strong random data, never to exceed the number of bytes available from 
     /// the specified entropy sources.  This can cause slow generation, and is recommended only for generating extremely
-    /// strong keys and other things that don't require a large number of bytes quickly.  This is CPU intensive, and perhaps 
-    /// generates a few KB/sec.  For general purposes, see TinHatURandom instead.
+    /// strong keys and other things that don't require a large number of bytes quickly.  This is CPU intensive.  For general 
+    /// purposes, see TinHatURandom instead.
     /// </summary>
     /// <remarks>
     /// TinHatRandom returns cryptographically strong random data, never to exceed the number of bytes available from 
     /// the specified entropy sources.  This can cause slow generation, and is recommended only for generating extremely
-    /// strong keys and other things that don't require a large number of bytes quickly.  This is CPU intensive, and perhaps 
-    /// generates a few KB/sec.  For general purposes, see TinHatURandom instead.
+    /// strong keys and other things that don't require a large number of bytes quickly.  This is CPU intensive.  For general 
+    /// purposes, see TinHatURandom instead.
     /// </remarks>
     /// <example><code>
+    /// using tinhat;
+    /// 
     /// static void Main(string[] args)
     /// {
-    ///     StartEarly.StartFillingEntropyPools();
+    ///     StartEarly.StartFillingEntropyPools();  // Start gathering entropy as early as possible
     /// 
-    ///     const int blockSize = 640;
+    ///     var randomBytes = new byte[32];
     ///
-    ///     // On my system, this generated about 15-60 KiB/sec
+    ///     // Performance is highly variable.  On my system it generated 497Bytes(minimum)/567KB(avg)/1.7MB(max) per second
     ///     // default TinHatRandom() constructor uses:
     ///     //     SystemRNGCryptoServiceProvider/SHA256, 
     ///     //     ThreadedSeedGeneratorRNG/SHA256/RipeMD256Digest,
     ///     //     (if available) EntropyFileRNG/SHA256
-    ///     using (var rng = new TinHatRandom())
-    ///     {
-    ///         for (int i = 0; i &lt; 125; i++)
-    ///         {
-    ///             var randomBytes = new byte[blockSize];
-    ///             rng.GetBytes(randomBytes);
-    ///         }
-    ///     }
+    ///     TinHatRandom.StaticInstance.GetBytes(randomBytes);
     /// }
     /// </code></example>
     public sealed class TinHatRandom : RandomNumberGenerator
     {
+        private static TinHatRandom _StaticInstance = new TinHatRandom();
+        public static TinHatRandom StaticInstance { get { return _StaticInstance; } }
+        private EventHandler EntropyFileRNG_Reseeded_Handler;
+        private EventHandler EntropyFileRNG_BecameAvailable_Handler;
+
+        /// <summary>
+        /// Event gets raised whenever new entropy source is added.  Mainly so TinHatURandom can reseed itself
+        /// </summary>
+        public event EventHandler EntropyIncreased;
+
+        // Interlocked cannot handle bools.  So using int as if it were bool.
+        private const int TrueInt = 1;
+        private const int FalseInt = 0;
+        private int disposed = FalseInt;
+
         private List<SupportingClasses.EntropyHasher> EntropyHashers;
         private int HashLengthInBytes;
         public TinHatRandom()
@@ -72,11 +83,22 @@ namespace tinhat
                 {
                     RNG = new EntropySources.EntropyFileRNG();
                 }
-                catch { }   // EntropyFileRNG thows exceptions if it hasn't been seeded yet, if it encouters corruption, etc.
-                if (RNG != null)
+                catch
+                { }     // EntropyFileRNG thows exceptions if it hasn't been seeded yet, if it encouters corruption, etc.
+                if (RNG == null)
                 {
+                    // Subscribe to its static BecameAvailable event, so we'll immediately start using one if it becomes available.
+                    this.EntropyFileRNG_BecameAvailable_Handler = new EventHandler(EntropyFileRNG_BecameAvailable);
+                    EntropySources.EntropyFileRNG.BecameAvailable += this.EntropyFileRNG_BecameAvailable_Handler;
+                }
+                else
+                {
+                    // Subscribe to its Reseeded event, so if it reseeds itself, we'll notify any TinHatURandom instances (or anyone else)
+                    // that are dependent on me
                     var HashWrapper = new SupportingClasses.HashAlgorithmWrapper(SHA256.Create());
                     this.EntropyHashers.Add(new SupportingClasses.EntropyHasher(RNG, HashWrapper));
+                    this.EntropyFileRNG_Reseeded_Handler = new EventHandler(EntropyFileRNG_Reseeded);
+                    RNG.Reseeded += this.EntropyFileRNG_Reseeded_Handler;
                 }
             }
 
@@ -85,8 +107,17 @@ namespace tinhat
         public TinHatRandom(List<SupportingClasses.EntropyHasher> EntropyHashers)
         {
             this.EntropyHashers = EntropyHashers;
+            foreach (SupportingClasses.EntropyHasher hasher in EntropyHashers)
+            {
+                if (hasher.RNG is EntropySources.EntropyFileRNG)
+                {
+                    this.EntropyFileRNG_Reseeded_Handler = new EventHandler(EntropyFileRNG_Reseeded);
+                    ((EntropySources.EntropyFileRNG)(hasher.RNG)).Reseeded += this.EntropyFileRNG_Reseeded_Handler;
+                }
+            }
             CtorSanityCheck();
         }
+
         private void CtorSanityCheck()
         {
             if (EntropyHashers == null)
@@ -129,6 +160,36 @@ namespace tinhat
             }
             HashLengthInBytes = HashLengthInBits / 8;
         }
+
+        private void EntropyFileRNG_Reseeded(object sender, EventArgs e)
+        {
+            if (this.EntropyIncreased != null)
+            {
+                this.EntropyIncreased(this, EventArgs.Empty);
+            }
+        }
+
+        private void EntropyFileRNG_BecameAvailable(object sender, EventArgs e)
+        {
+            EntropySources.EntropyFileRNG RNG = new EntropySources.EntropyFileRNG();
+            var HashWrapper = new SupportingClasses.HashAlgorithmWrapper(SHA256.Create());
+            // We're going to modify the collection, so lock to make it thread-safe.
+            lock (EntropyHashers)
+            {
+                EntropyHashers.Add(new SupportingClasses.EntropyHasher(RNG, HashWrapper));
+                this.EntropyFileRNG_Reseeded_Handler = new EventHandler(EntropyFileRNG_Reseeded);
+                RNG.Reseeded += this.EntropyFileRNG_Reseeded_Handler;
+            }
+
+            // Now that we got one, we don't need to be subscribed to this event anymore
+            EntropySources.EntropyFileRNG.BecameAvailable -= this.EntropyFileRNG_BecameAvailable_Handler;
+
+            if (this.EntropyIncreased != null)
+            {
+                this.EntropyIncreased(this, EventArgs.Empty);
+            }
+        }
+
         private byte[] CombineByteArrays(List<byte[]> byteArrays)
         {
             if (byteArrays == null)
@@ -187,39 +248,42 @@ namespace tinhat
             {
                 List<byte[]> allByteArraysThatMustBeUnique = new List<byte[]>();
                 List<byte[]> outputs = new List<byte[]>();
-                foreach (SupportingClasses.EntropyHasher eHasher in EntropyHashers)
+                lock (EntropyHashers)
                 {
-                    List<byte[]> hashes = new List<byte[]>();
-                    byte[] entropy = new byte[HashLengthInBytes];
-                    eHasher.RNG.GetBytes(entropy);
-                    allByteArraysThatMustBeUnique.Add(entropy);
-                    if (eHasher.HashWrappers == null || eHasher.HashWrappers.Count < 1)
-                        throw new CryptographicException("eHasher.HashWrappers == null || eHasher.HashWrappers.Count < 1");
-                    foreach (SupportingClasses.HashAlgorithmWrapper hasher in eHasher.HashWrappers)
+                    foreach (SupportingClasses.EntropyHasher eHasher in EntropyHashers)
                     {
-                        byte[] hash = hasher.ComputeHash(entropy);
-                        hashes.Add(hash);
-                        allByteArraysThatMustBeUnique.Add(hash);
-                    }
-                    // We don't bother comparing any of the hashes for equality right now, because the big loop
-                    // will do that later, when checking allByteArraysThatMustBeUnique.
-                    if (hashes.Count == 1)
-                    {
-                        // We don't need to combine hashes, if there is only one hash.
-                        // No need to allByteArraysThatMustBeUnique.Add, because that was already done above.
-                        outputs.Add(hashes[0]);
-                    }
-                    else if (hashes.Count > 1)
-                    {
-                        byte[] output = CombineByteArrays(hashes);
-                        allByteArraysThatMustBeUnique.Add(output);
-                        outputs.Add(output);
-                    }
-                    else
-                    {
-                        // Impossible to get here because foreach() loops over eHasher.HashWrappers and does "hashes.Add" on each
-                        // iteration.  And eHasher.HashWrappers was already checked for null and checked for Count < 1
-                        throw new Exception("Impossible Exception # A0B276734D");
+                        List<byte[]> hashes = new List<byte[]>();
+                        byte[] entropy = new byte[HashLengthInBytes];
+                        eHasher.RNG.GetBytes(entropy);
+                        allByteArraysThatMustBeUnique.Add(entropy);
+                        if (eHasher.HashWrappers == null || eHasher.HashWrappers.Count < 1)
+                            throw new CryptographicException("eHasher.HashWrappers == null || eHasher.HashWrappers.Count < 1");
+                        foreach (SupportingClasses.HashAlgorithmWrapper hasher in eHasher.HashWrappers)
+                        {
+                            byte[] hash = hasher.ComputeHash(entropy);
+                            hashes.Add(hash);
+                            allByteArraysThatMustBeUnique.Add(hash);
+                        }
+                        // We don't bother comparing any of the hashes for equality right now, because the big loop
+                        // will do that later, when checking allByteArraysThatMustBeUnique.
+                        if (hashes.Count == 1)
+                        {
+                            // We don't need to combine hashes, if there is only one hash.
+                            // No need to allByteArraysThatMustBeUnique.Add, because that was already done above.
+                            outputs.Add(hashes[0]);
+                        }
+                        else if (hashes.Count > 1)
+                        {
+                            byte[] output = CombineByteArrays(hashes);
+                            allByteArraysThatMustBeUnique.Add(output);
+                            outputs.Add(output);
+                        }
+                        else
+                        {
+                            // Impossible to get here because foreach() loops over eHasher.HashWrappers and does "hashes.Add" on each
+                            // iteration.  And eHasher.HashWrappers was already checked for null and checked for Count < 1
+                            throw new Exception("Impossible Exception # A0B276734D");
+                        }
                     }
                 }
                 byte[] finalOutput = CombineByteArrays(outputs);
@@ -292,6 +356,15 @@ namespace tinhat
         }
         protected override void Dispose(bool disposing)
         {
+            if (Interlocked.Exchange(ref disposed, TrueInt) == TrueInt)
+            {
+                return;
+            }
+            try
+            {
+                EntropySources.EntropyFileRNG.BecameAvailable -= this.EntropyFileRNG_BecameAvailable_Handler;
+            }
+            catch { }
             if (EntropyHashers != null)
             {
                 List<SupportingClasses.EntropyHasher> myHashers = EntropyHashers;
@@ -300,6 +373,14 @@ namespace tinhat
                 {
                     foreach (SupportingClasses.EntropyHasher hasher in myHashers)
                     {
+                        if (hasher.RNG is EntropySources.EntropyFileRNG)
+                        {
+                            try
+                            {
+                                ((EntropySources.EntropyFileRNG)hasher.RNG).Reseeded -= this.EntropyFileRNG_Reseeded_Handler;
+                            }
+                            catch { }
+                        }
                         try
                         {
                             ((IDisposable)hasher).Dispose();

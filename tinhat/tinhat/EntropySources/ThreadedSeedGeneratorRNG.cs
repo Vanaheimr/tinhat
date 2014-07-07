@@ -34,21 +34,12 @@ namespace tinhat.EntropySources
         // Create a static instance, in the static constructor, to start building an entropy pool as early as possible.
         private static ThreadedSeedGeneratorRNG staticThreadSchedulerRNG;
 
-        private const int chunkSize = 16;
-        private byte[] chunk;
-        private int chunkByteIndex = 0;
-        private int chunkBitIndex = 0;
-        private int chunkBitCount = 0;  // Used to detect biased sampling
-        private const int minBitsSet = (int)(chunkSize * 8 * 0.2);  // If we randomly sample less than this many bits set to 1 in a chunk, discard sample
-        private const int maxBitsSet = (int)(chunkSize * 8 * 0.8);  // If we randomly sample more than this many bits set to 1 in a chunk, discard sample
-
         static ThreadedSeedGeneratorRNG()
         {
             staticThreadSchedulerRNG = new ThreadedSeedGeneratorRNG();
         }
         public ThreadedSeedGeneratorRNG()
         {
-            this.chunk = new byte[chunkSize];
             this.MaxPoolSize = 4096;
             this.mainThread = new Thread(new ThreadStart(mainThreadLoop));
             this.mainThread.IsBackground = true;    // Don't prevent application from dying if it wants to.
@@ -56,7 +47,6 @@ namespace tinhat.EntropySources
         }
         public ThreadedSeedGeneratorRNG(int MaxPoolSize)
         {
-            this.chunk = new byte[chunkSize];
             this.MaxPoolSize = MaxPoolSize;
             this.mainThread = new Thread(new ThreadStart(mainThreadLoop));
             this.mainThread.IsBackground = true;    // Don't prevent application from dying if it wants to.
@@ -167,11 +157,16 @@ namespace tinhat.EntropySources
         {
             try
             {
+                // ThreadedSeedGenerator performs better with large hunks of data, but if we just use MaxPoolSize, then the whole
+                // thing gets drained before it starts refilling.  In effect, the pool will drain by one unit of byteCount, before it
+                // starts refilling, and likewise, there will be zero bytes available until at least one unit of byteCount becomes
+                // available.  So there's a balancing act happening here... Faster throughput versus faster response time...
+                // Divide by 8 seems to be a reasonable compromise between the two.
+                int byteCount = MaxPoolSize / 8;
                 while (disposed == FalseInt)
                 {
                     if (myFifoStream.Length < MaxPoolSize)
                     {
-                        int byteCount = MaxPoolSize - (int)(myFifoStream.Length);
                         byte[] newBytes = myThreadedSeedGeneratorRNG.GenerateSeed(byteCount, fast: false);
                         myFifoStream.Write(newBytes, 0, newBytes.Length);
                     }

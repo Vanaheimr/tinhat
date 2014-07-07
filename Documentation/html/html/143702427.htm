@@ -66,10 +66,11 @@
                       </td>
                       <td>
                         <div class="summary">
-   The first time you ever instantiate EntropyFileRNG, you *must* provide a seed.  Otherwise, CryptographicException
+   The first time you ever instantiate EntropyFileRNG, you *must* provide a newSeed.  Otherwise, CryptographicException
    will be thrown.  You better ensure it's at least 128 bits (16 bytes), preferably much more (&gt;=32 bytes).  Any subsequent
    time you instantiate EntropyFileRNG, you may use the parameter-less constructor, and it will leverage the original seed.
    Whenever you provide more seed bytes, entropy is always increased.  (Does not lose previous entropy bytes.)
+   NOTICE: byte[] newSeed will be zero'd out before returning, for security reasons.
    </div>
                       </td>
                     </tr>
@@ -92,6 +93,34 @@
             </th>
                       <th class="nameColumn">Name</th>
                       <th class="descriptionColumn">Description</th>
+                    </tr>
+                    <tr data="public;static;declared;notNetfw;">
+                      <td>
+                        <img src="../icons/pubmethod.gif" alt="Public method" title="Public method" />
+                        <img src="../icons/static.gif" alt="Static member" title="Static member" />
+                      </td>
+                      <td>
+                        <a href="1219605221.htm">AddSeedMaterial</a>
+                      </td>
+                      <td>
+                        <div class="summary">
+   NOTICE: byte[] newSeed will be zero'd out before returning, for security reasons.
+   </div>
+                      </td>
+                    </tr>
+                    <tr data="public;static;declared;notNetfw;">
+                      <td>
+                        <img src="../icons/pubmethod.gif" alt="Public method" title="Public method" />
+                        <img src="../icons/static.gif" alt="Static member" title="Static member" />
+                      </td>
+                      <td>
+                        <a href="414273708.htm">ConcatenateByteArrays</a>
+                      </td>
+                      <td>
+                        <div class="summary">
+   Returns a single byte array containing all the bytes of all the provided arrays
+   </div>
+                      </td>
                     </tr>
                     <tr data="public;inherited;notNetfw;">
                       <td>
@@ -180,6 +209,55 @@
                       </td>
                       <td>
                         <div class="summary">Returns a string that represents the current object.</div> (Inherited from <a href="http://msdn.microsoft.com/en-us/library/system.object.aspx" target="_blank">System.Object</a>.)</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="LW_CollapsibleArea_Container">
+                  <div class="LW_CollapsibleArea_TitleDiv">
+                    <h2 class="LW_CollapsibleArea_Title">Events</h2>
+                    <div class="LW_CollapsibleArea_HrDiv">
+                      <hr class="LW_CollapsibleArea_Hr" />
+                    </div>
+                  </div>
+                  <a id="eventTableSection">
+                    <!---->
+                  </a>
+                  <table class="members">
+                    <tr>
+                      <th class="iconColumn">
+               
+            </th>
+                      <th class="nameColumn">Name</th>
+                      <th class="descriptionColumn">Description</th>
+                    </tr>
+                    <tr data="public;static;declared;notNetfw;">
+                      <td>
+                        <img src="../icons/pubevent.gif" alt="Public event" title="Public event" />
+                        <img src="../icons/static.gif" alt="Static member" title="Static member" />
+                      </td>
+                      <td>
+                        <a href="1492284346.htm">BecameAvailable</a>
+                      </td>
+                      <td>
+                        <div class="summary">
+   Mainly intended for TinHat internal use.  Whenever user adds seed material, notify all TinHatRandom instances that didn't
+   previously have an instance of EntropyFileRNG
+   </div>
+                      </td>
+                    </tr>
+                    <tr data="public;declared;notNetfw;">
+                      <td>
+                        <img src="../icons/pubevent.gif" alt="Public event" title="Public event" />
+                      </td>
+                      <td>
+                        <a href="2013168067.htm">Reseeded</a>
+                      </td>
+                      <td>
+                        <div class="summary">
+   Mainly intended for TinHat internal use.  Whenever user adds seed material, all EntropyFileRNG instances will reseed themselves,
+   and this needs to be caught by TinHatRandom so they can raise EntropyIncreased, so TinHatURandom will then reseed itself.
+   </div>
+                      </td>
                     </tr>
                   </table>
                 </div>
